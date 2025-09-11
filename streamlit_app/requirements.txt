@@ -3,3 +3,4 @@ openpyxl>=3.0.0
 xlrd>=2.0.0
 plotly
 numpy
+matplotlib
