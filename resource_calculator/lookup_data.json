@@ -1,0 +1,414 @@
+{
+  "description": "Lookup data for the Resource Calculator application, structured for Python integration. All values are per day unless otherwise specified.",
+  "inputs": {
+    "title": "Trip Configuration",
+    "params": {
+      "user_type": {
+        "label": "User Profile",
+        "value": "Typical",
+        "options": [
+          "Glamper",
+          "Typical",
+          "Expert"
+        ],
+        "description": "Defines lifestyle and resource consumption habits."
+      },
+      "num_people": {
+        "label": "Number of People",
+        "value": 1,
+        "options": [1, 2, 3, 4],
+        "description": "Total number of occupants."
+      },
+      "trip_duration_days": {
+        "label": "Trip Duration",
+        "value": 3,
+        "unit": "days",
+        "description": "Total length of the trip in days."
+      },
+      "hvac_runtime_hrs": {
+        "label": "HVAC Runtime",
+        "value": 12,
+        "unit": "hrs/day",
+        "description": "Daily hours of HVAC operation for climate control and water generation."
+      },
+      "relocation_count": {
+        "label": "Relocation Count",
+        "value": 2,
+        "description": "Number of times the trailer will be moved to a new campsite during the trip."
+      },
+      "temperature": {
+        "label": "Ambient Temperature",
+        "value": "Hot",
+        "options": [
+          "Hot",
+          "Temperate",
+          "Cold"
+        ],
+        "description": "Represents seasonal conditions affecting HVAC and solar generation."
+      },
+      "humidity": {
+        "label": "Ambient Humidity",
+        "value": "Comfortable",
+        "options": [
+          "Humid",
+          "Comfortable",
+          "Dry"
+        ],
+        "description": "Affects water generation from HVAC and solar panel efficiency."
+      },
+      "sunlight": {
+        "label": "Sunlight Exposure",
+        "value": "Hi- Sunny",
+        "options": [
+          "Hi- Sunny",
+          "Mid- Cloudy",
+          "Lo- Shady"
+        ],
+        "description": "Determines the effectiveness of solar power generation."
+      }
+    }
+  },
+  "trailer_specs": {
+    "title": "Trailer Specifications",
+    "specs": {
+      "battery_capacity_kwh": {
+        "label": "Battery Capacity",
+        "value": 100,
+        "unit": "kWh"
+      },
+      "solar_capacity_kw": {
+        "label": "Solar Capacity",
+        "value": 5.25,
+        "unit": "kW"
+      },
+      "num_solar_panels": {
+        "label": "Number of Solar Panels",
+        "value": 35,
+        "unit": ""
+      },
+      "freshwater_capacity_gal": {
+        "label": "Freshwater Capacity",
+        "value": 100,
+        "unit": "gal"
+      },
+      "blackwater_capacity_gal": {
+        "label": "Blackwater Capacity",
+        "value": 45,
+        "unit": "gal"
+      },
+      "greywater_capacity_gal": {
+        "label": "Greywater Capacity",
+        "value": 50,
+        "unit": "gal"
+      }
+    }
+  },
+  "lookups": {
+    "user_profiles": {
+      "description": "Usage multipliers based on user profile. From 'User Matrix' sheet.",
+      "profiles": {
+        "Glamper": {
+          "living_audio_mins_day": 240,
+          "living_tv_mins_day": 120,
+          "living_smart_glass_hrs_day": 10,
+          "living_lighting_mins_day": 450,
+          "living_electronics_hrs_day": 24,
+          "living_cleaning_gal_day": 0.75,
+          "living_drinking_water_gal_day": 0.5,
+          "cooking_stove_mins_meal": 20,
+          "cooking_meals_day": 3,
+          "cooking_microwave_mins_meal": 5,
+          "cooking_dishwasher_cycles_meal": 1,
+          "cooking_garbage_disposal_mins_meal": 1,
+          "cooking_consumer_electronics_mins_meal": 8,
+          "cooking_water_heater_mins_meal": 4,
+          "cooking_pump_mins_meal": 5.585,
+          "cooking_dishwasher_water_gal_meal": 3.17,
+          "cooking_kitchen_faucet_gal_meal": 2,
+          "toilet_cycles_day_person": 7,
+          "toilet_pump_min_cycle": 1.13,
+          "toilet_vent_fan_min_cycle": 5,
+          "toilet_water_heater_min_cycle": 0.33,
+          "toilet_sink_water_gal_cycle": 0.495,
+          "shower_cycles_day_person": 1.5,
+          "shower_duration_min_cycle": 10,
+          "shower_vent_fan_min_cycle": 20,
+          "shower_electronics_min_cycle": 10,
+          "shower_water_gal_cycle": 20,
+          "laundry_cycles_day_person": 0.3333333333
+        },
+        "Typical": {
+          "living_audio_mins_day": 120,
+          "living_tv_mins_day": 60,
+          "living_smart_glass_hrs_day": 6,
+          "living_lighting_mins_day": 300,
+          "living_electronics_hrs_day": 16,
+          "living_cleaning_gal_day": 0.625,
+          "living_drinking_water_gal_day": 0.75,
+          "cooking_stove_mins_meal": 15,
+          "cooking_meals_day": 2,
+          "cooking_microwave_mins_meal": 3.5,
+          "cooking_dishwasher_cycles_meal": 0.5,
+          "cooking_garbage_disposal_mins_meal": 0.5,
+          "cooking_consumer_electronics_mins_meal": 5,
+          "cooking_water_heater_mins_meal": 3,
+          "cooking_pump_mins_meal": 3.625,
+          "cooking_dishwasher_water_gal_meal": 1.25,
+          "cooking_kitchen_faucet_gal_meal": 1.5,
+          "toilet_cycles_day_person": 5,
+          "toilet_pump_min_cycle": 1.05,
+          "toilet_vent_fan_min_cycle": 4,
+          "toilet_water_heater_min_cycle": 0.25,
+          "toilet_sink_water_gal_cycle": 0.375,
+          "shower_cycles_day_person": 1,
+          "shower_duration_min_cycle": 6,
+          "shower_vent_fan_min_cycle": 15,
+          "shower_electronics_min_cycle": 5,
+          "shower_water_gal_cycle": 12,
+          "laundry_cycles_day_person": 0.2
+        },
+        "Expert": {
+          "living_audio_mins_day": 10,
+          "living_tv_mins_day": 30,
+          "living_smart_glass_hrs_day": 3,
+          "living_lighting_mins_day": 240,
+          "living_electronics_hrs_day": 10,
+          "living_cleaning_gal_day": 0.5,
+          "living_drinking_water_gal_day": 1,
+          "cooking_stove_mins_meal": 10,
+          "cooking_meals_day": 1,
+          "cooking_microwave_mins_meal": 2,
+          "cooking_dishwasher_cycles_meal": 0.33,
+          "cooking_garbage_disposal_mins_meal": 0.1666666667,
+          "cooking_consumer_electronics_mins_meal": 3,
+          "cooking_water_heater_mins_meal": 1,
+          "cooking_pump_mins_meal": 1.4125,
+          "cooking_dishwasher_water_gal_meal": 0.825,
+          "cooking_kitchen_faucet_gal_meal": 0.5,
+          "toilet_cycles_day_person": 3,
+          "toilet_pump_min_cycle": 0.967,
+          "toilet_vent_fan_min_cycle": 2.5,
+          "toilet_water_heater_min_cycle": 0.167,
+          "toilet_sink_water_gal_cycle": 0.2505,
+          "shower_cycles_day_person": 0.5,
+          "shower_duration_min_cycle": 3,
+          "shower_vent_fan_min_cycle": 10,
+          "shower_electronics_min_cycle": 2,
+          "shower_water_gal_cycle": 6,
+          "laundry_cycles_day_person": 0.1428571429
+        }
+      }
+    },
+    "components": {
+      "schema": [
+        "name",
+        "voltage_v",
+        "avg_amps",
+        "water_gal_per_cycle",
+        "idle_amps"
+      ],
+      "unit": [
+        "",
+        "V",
+        "A",
+        "gal/cycle",
+        "A"
+      ],
+      "living": [
+        ["Audio Amplifier", 12, 6, 0, 1],
+        ["Television", 120, 0.7, 0, 0],
+        ["Surround Sound", 120, 0.625, 0, 0.1317],
+        ["Refrigerator", 120, 0.5137, 0.2857, 0.5137],
+        ["Satellite Internet PSU", 12, 2.5, 0, 0],
+        ["Lighting", 12, 12, 0, 0],
+        ["Tire Pressure Sensors", 24, 0.4, 0, 0],
+        ["Misc. Sensors & Controllers", 12, 0, 0, 5],
+        ["Security Cameras", 12, 2, 0, 0],
+        ["Consumer Electronics", 120, 0.5, 0, 0],
+        ["Misc. Cleaning", 0, 0, 0.625, 0],
+        ["Drinking Water Tap", 0, 0, 0.75, 0],
+        ["Solar Glycol Pump", 12, 0.7, 0, 0],
+        ["Water Pump", 12, 8.5, 0, 0],
+        ["UV Water System", 12, 1.8, 0, 0],
+        ["Tablet UI", 12, 0.4167, 0, 0],
+        ["SmartTint DC PSU", 12, 2.5, 0, 0],
+        ["Exterior Camp Lights", 12, 0.054, 0, 0],
+        ["Exterior Porch Lighting", 12, 0.14, 0, 0],
+        ["Storage Lights", 12, 0.325, 0, 0],
+        ["LAN Switch PSU", 120, 0.25, 0, 0],
+        ["Secure Gateway", 12, 0.8333, 0, 0.416],
+        ["Telematics T-Box", 12, 1.25, 0, 0.25],
+        ["4G LTE Antenna", 12, 0, 0, 0.75],
+        ["Air Purifier", 120, 0.375, 0, 0],
+        ["AI Compute", 12, 20.8333, 0, 1.25],
+        ["Party Lighting", 12, 18.3333, 0, 0],
+        ["Smart Glass Display", 120, 0.7167, 0, 0.8333],
+        ["Smart Key Lighting", 12, 8, 0, 0.004],
+        ["Home Assistant Server", 12, 12.5, 0, 0.004],
+        ["HVAC Controller", 12, 7.855, 0, 0.01],
+        ["Obstruction Sensors", 12, 1, 0, 0.01]
+      ],
+      "cooking": [
+        ["Stove", 240, 12.5, 0, 0],
+        ["Microwave", 120, 8.3333, 0, 0],
+        ["Dishwasher", 120, 5.35, 1.25, 0],
+        ["Garbage Disposal", 120, 5.6, 0, 0],
+        ["Range Hood", 120, 3.52, 0, 0],
+        ["Consumer Electronics", 120, 5, 0, 0],
+        ["Tankless Water Heater", 240, 33.4, 0, 0],
+        ["Water Pump", 12, 8.5, 0, 0],
+        ["Kitchen Faucet", 0, 0, 1.5, 0]
+      ],
+      "toilet": [
+        ["Grey Water Pump", 12, 2.4, 0, 0],
+        ["Bathroom Vent Fan", 12, 1.9, 0, 0],
+        ["Macerating Pump", 12, 17, 0, 0],
+        ["Tankless Water Heater", 240, 33.4, 0, 0],
+        ["Bathroom Sink", 12, 1.9, 0.375, 0]
+      ],
+      "shower": [
+        ["Electric Shower", 240, 33, 0, 0],
+        ["Bathroom Vent Fan", 12, 1.9, 0, 0],
+        ["Consumer Electronics", 120, 5, 0, 0],
+        ["Water Pump", 12, 8.5, 0, 0]
+      ],
+      "laundry": [
+        ["Washer/Dryer Combo", 120, 15, 20.6, 0],
+        ["Tankless Water Heater", 240, 33.4, 0, 0],
+        ["Water Pump", 12, 8.5, 0, 0]
+      ],
+      "actuation": [
+        ["Side Room Floor", 24, 1.4, 0, 0],
+        ["Side Room Wall", 24, 1.1, 0, 0],
+        ["Front Room", 24, 0.427, 0, 0],
+        ["Rear Room", 24, 0.61, 0, 0],
+        ["Chassis Leveling Jacks", 24, 9.3, 0, 0],
+        ["Room Support Jacks", 12, 15, 0, 0],
+        ["Gearage", 24, 0.13, 0, 0],
+        ["Awning", 12, 10, 0, 0],
+        ["Furniture Automation", 120, 10, 0, 0],
+        ["TV Rise", 120, 3.5, 0, 0],
+        ["Electric Tongue Jack", 12, 30, 0, 0],
+        ["Motor Controllers", 12, 1.25, 0, 0]
+      ],
+      "dumping": [
+        ["Electric Waste Valves", 12, 2.5, 0, 0]
+      ],
+      "hvac": [
+        ["Mini-Split HVAC (Hot/Cold)", 240, 9.205, 0, 0],
+        ["Mini-Split HVAC (Temperate)", 240, 4.082, 0, 0]
+      ]
+    },
+    "hvac_energy_wh_day": {
+      "Hot": 6923.75,
+      "Temperate": 744.68,
+      "Cold": 15615.35
+    },
+    "hvac_water_gen_gph": {
+      "day": {
+        "Hot": {"Humid": 0, "Comfortable": 0, "Dry": 0},
+        "Temperate": {"Humid": 0, "Comfortable": 0, "Dry": 0},
+        "Cold": {"Humid": 0.8, "Comfortable": 0.5, "Dry": 0.2}
+      },
+      "night": {
+        "Hot": {"Humid": 0, "Comfortable": 0, "Dry": 0},
+        "Temperate": {"Humid": 0, "Comfortable": 0, "Dry": 0},
+        "Cold": {"Humid": 0.9, "Comfortable": 0.6, "Dry": 0.3}
+      }
+    },
+    "waste_production": {
+      "description": "Values are per day for Living, and per cycle for others.",
+      "unit": "gal",
+      "living_cleaning": {"grey": 0.625, "black": 0},
+      "cooking_dishwasher": {"grey": 1.25, "black": 0},
+      "cooking_sink": {"grey": 0, "black": 1.125},
+      "shower": {"grey": 12, "black": 0},
+      "laundry": {"grey": 4.12, "black": 0},
+      "toilet_handwashing": {"grey": 0.375, "black": 0},
+      "toilet_flush": {"grey": -0.4, "black": 0.4}
+    },
+    "solar": {
+      "system_loss_factor": 0.9,
+      "tilt_factor": {
+        "Hot": 0.8,
+        "Temperate": 0.8,
+        "Cold": 0.75
+      },
+      "sunlight_factor": {
+        "Hi- Sunny": 1.0,
+        "Mid- Cloudy": 0.5,
+        "Lo- Shady": 0.25
+      },
+      "insolation_wh_m2_day": {
+        "Hot": {
+          "Dry": 10022,
+          "Comfortable": 9514,
+          "Humid": 7526
+        },
+        "Temperate": {
+          "Dry": 7231,
+          "Comfortable": 6821,
+          "Humid": 5340
+        },
+        "Cold": {
+          "Dry": 3758,
+          "Comfortable": 3532,
+          "Humid": 2604
+        }
+      }
+    }
+  },
+  "dashboard_outputs": {
+    "title": "Resource Consumption",
+    "categories": [
+      "Living",
+      "Cooking",
+      "Shower",
+      "Toilet",
+      "Laundry",
+      "Actuation",
+      "Dumping",
+      "HVAC & Water"
+    ],
+    "metrics": [
+      "Energy [kWh]",
+      "% Energy",
+      "Water [gal]",
+      "% Water"
+    ],
+    "gauges": {
+      "energy": {
+        "label": "Battery",
+        "unit": "%",
+        "range": [
+          0,
+          100
+        ]
+      },
+      "freshwater": {
+        "label": "Fresh Water",
+        "unit": "%",
+        "range": [
+          0,
+          100
+        ]
+      },
+      "greywater": {
+        "label": "Grey Water",
+        "unit": "%",
+        "range": [
+          0,
+          100
+        ]
+      },
+      "blackwater": {
+        "label": "Black Water",
+        "unit": "%",
+        "range": [
+          0,
+          100
+        ]
+      }
+    }
+  }
+}
