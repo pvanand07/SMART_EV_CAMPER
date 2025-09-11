@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 import numpy as np
-from calculator import ResourceCalculator # Import the class from calculator.py
+from streamlit_app.calculator import ResourceCalculator # Import the class from calculator.py
 
 st.set_page_config(
     layout="wide", 
@@ -20,7 +20,7 @@ st.set_page_config(
 def load_data():
     """Loads the lookup data from the JSON file."""
     try:
-        with open('lookup_data.json', 'r') as f:
+        with open('streamlit_app/lookup_data.json', 'r') as f:
             data = json.load(f)
         return data
     except FileNotFoundError:
