@@ -6,7 +6,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 import numpy as np
-from streamlit_app.calculator import ResourceCalculator # Import the class from calculator.py
+from calculator import ResourceCalculator # Import the class from calculator.py
 
 st.set_page_config(
     layout="wide", 
