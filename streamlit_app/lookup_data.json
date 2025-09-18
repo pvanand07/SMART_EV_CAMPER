@@ -108,94 +108,229 @@
       "description": "Usage multipliers based on user profile. From 'User Matrix' sheet.",
       "profiles": {
         "Glamper": {
-          "living_audio_mins_day": 240,
-          "living_tv_mins_day": 120,
-          "living_smart_glass_hrs_day": 10,
-          "living_lighting_mins_day": 450,
-          "living_electronics_hrs_day": 24,
-          "living_cleaning_gal_day": 0.75,
-          "living_drinking_water_gal_day": 0.5,
-          "cooking_stove_mins_meal": 20,
-          "cooking_meals_day": 3,
-          "cooking_microwave_mins_meal": 5,
-          "cooking_dishwasher_cycles_meal": 1,
-          "cooking_garbage_disposal_mins_meal": 1,
-          "cooking_consumer_electronics_mins_meal": 8,
-          "cooking_water_heater_mins_meal": 4,
-          "cooking_pump_mins_meal": 5.585,
-          "cooking_dishwasher_water_gal_meal": 3.17,
-          "cooking_kitchen_faucet_gal_meal": 2,
-          "toilet_cycles_day_person": 7,
-          "toilet_pump_min_cycle": 1.13,
-          "toilet_vent_fan_min_cycle": 5,
-          "toilet_water_heater_min_cycle": 0.33,
-          "toilet_sink_water_gal_cycle": 0.495,
-          "shower_cycles_day_person": 1.5,
-          "shower_duration_min_cycle": 10,
-          "shower_vent_fan_min_cycle": 20,
-          "shower_electronics_min_cycle": 10,
-          "shower_water_gal_cycle": 20,
-          "laundry_cycles_day_person": 0.3333333333
+          "time_based": {
+            "mins_per_day": {
+              "living_audio": 240,
+              "living_tv": 120,
+              "living_lighting": 450
+            },
+            "hrs_per_day": {
+              "living_smart_glass": 10,
+              "living_electronics": 24,
+              "living_party_lighting": 6,
+              "living_tire_sensors": 24,
+              "living_sensors_controllers": 24,
+              "living_security_cameras": 24,
+              "living_ext_camp_lights": 4,
+              "living_ext_porch_lights": 4,
+              "living_smart_tint": 12
+            },
+            "mins_per_meal": {
+              "cooking_stove": 20,
+              "cooking_microwave": 5,
+              "cooking_garbage_disposal": 1,
+              "cooking_consumer_electronics": 8,
+              "cooking_water_heater": 4,
+              "cooking_pump": 5.585,
+              "cooking_range_hood": 22
+            },
+            "mins_per_cycle": {
+              "toilet_pump": 1.13,
+              "toilet_vent_fan": 5,
+              "toilet_water_heater": 0.33,
+              "shower_duration": 10,
+              "shower_vent_fan": 20,
+              "shower_electronics": 10,
+              "shower_water_pump": 10,
+              "laundry_water_heater": 30,
+              "laundry_water_pump": 30
+            }
+          },
+          "count_based": {
+            "cycles_per_day": {
+              "living_smart_key": 8
+            },
+            "meals_per_day": {
+              "cooking": 3
+            },
+            "cycles_per_meal": {
+              "cooking_dishwasher": 1
+            },
+            "cycles_per_day_per_person": {
+              "toilet": 7,
+              "shower": 1.5,
+              "laundry": 0.3333333333
+            },
+            "burners_per_meal": {
+              "cooking_stove": 2
+            }
+          },
+          "volume_based": {
+            "gal_per_day": {
+              "living_cleaning": 0.75,
+              "living_drinking_water": 0.5,
+              "living_ice_maker_water": 0.29
+            },
+            "gal_per_meal": {
+              "cooking_dishwasher_water": 3.17,
+              "cooking_kitchen_faucet": 2
+            },
+            "gal_per_cycle": {
+              "toilet_sink_water": 0.495,
+              "toilet_gravity_flush": 0.4,
+              "shower_water": 20
+            }
+          }
         },
         "Typical": {
-          "living_audio_mins_day": 120,
-          "living_tv_mins_day": 60,
-          "living_smart_glass_hrs_day": 6,
-          "living_lighting_mins_day": 300,
-          "living_electronics_hrs_day": 16,
-          "living_cleaning_gal_day": 0.625,
-          "living_drinking_water_gal_day": 0.75,
-          "cooking_stove_mins_meal": 15,
-          "cooking_meals_day": 2,
-          "cooking_microwave_mins_meal": 3.5,
-          "cooking_dishwasher_cycles_meal": 0.5,
-          "cooking_garbage_disposal_mins_meal": 0.5,
-          "cooking_consumer_electronics_mins_meal": 5,
-          "cooking_water_heater_mins_meal": 3,
-          "cooking_pump_mins_meal": 3.625,
-          "cooking_dishwasher_water_gal_meal": 1.25,
-          "cooking_kitchen_faucet_gal_meal": 1.5,
-          "toilet_cycles_day_person": 5,
-          "toilet_pump_min_cycle": 1.05,
-          "toilet_vent_fan_min_cycle": 4,
-          "toilet_water_heater_min_cycle": 0.25,
-          "toilet_sink_water_gal_cycle": 0.375,
-          "shower_cycles_day_person": 1,
-          "shower_duration_min_cycle": 6,
-          "shower_vent_fan_min_cycle": 15,
-          "shower_electronics_min_cycle": 5,
-          "shower_water_gal_cycle": 12,
-          "laundry_cycles_day_person": 0.2
+          "time_based": {
+            "mins_per_day": {
+              "living_audio": 120,
+              "living_tv": 60,
+              "living_lighting": 300
+            },
+            "hrs_per_day": {
+              "living_smart_glass": 6,
+              "living_electronics": 16,
+              "living_party_lighting": 2.5,
+              "living_tire_sensors": 24,
+              "living_sensors_controllers": 24,
+              "living_security_cameras": 24,
+              "living_ext_camp_lights": 2,
+              "living_ext_porch_lights": 2,
+              "living_smart_tint": 10
+            },
+            "mins_per_meal": {
+              "cooking_stove": 15,
+              "cooking_microwave": 3.5,
+              "cooking_garbage_disposal": 0.5,
+              "cooking_consumer_electronics": 5,
+              "cooking_water_heater": 3,
+              "cooking_pump": 3.625,
+              "cooking_range_hood": 17
+            },
+            "mins_per_cycle": {
+              "toilet_pump": 1.05,
+              "toilet_vent_fan": 4,
+              "toilet_water_heater": 0.25,
+              "shower_duration": 6,
+              "shower_vent_fan": 15,
+              "shower_electronics": 5,
+              "shower_water_pump": 6,
+              "laundry_water_heater": 30,
+              "laundry_water_pump": 30
+            }
+          },
+          "count_based": {
+            "cycles_per_day": {
+              "living_smart_key": 4
+            },
+            "meals_per_day": {
+              "cooking": 2
+            },
+            "cycles_per_meal": {
+              "cooking_dishwasher": 0.5
+            },
+            "cycles_per_day_per_person": {
+              "toilet": 5,
+              "shower": 1,
+              "laundry": 0.2
+            },
+            "burners_per_meal": {
+              "cooking_stove": 1
+            }
+          },
+          "volume_based": {
+            "gal_per_day": {
+              "living_cleaning": 0.625,
+              "living_drinking_water": 0.75,
+              "living_ice_maker_water": 0.29
+            },
+            "gal_per_meal": {
+              "cooking_dishwasher_water": 1.25,
+              "cooking_kitchen_faucet": 1.5
+            },
+            "gal_per_cycle": {
+              "toilet_sink_water": 0.375,
+              "toilet_gravity_flush": 0.4,
+              "shower_water": 12
+            }
+          }
         },
         "Expert": {
-          "living_audio_mins_day": 10,
-          "living_tv_mins_day": 30,
-          "living_smart_glass_hrs_day": 3,
-          "living_lighting_mins_day": 240,
-          "living_electronics_hrs_day": 10,
-          "living_cleaning_gal_day": 0.5,
-          "living_drinking_water_gal_day": 1,
-          "cooking_stove_mins_meal": 10,
-          "cooking_meals_day": 1,
-          "cooking_microwave_mins_meal": 2,
-          "cooking_dishwasher_cycles_meal": 0.33,
-          "cooking_garbage_disposal_mins_meal": 0.1666666667,
-          "cooking_consumer_electronics_mins_meal": 3,
-          "cooking_water_heater_mins_meal": 1,
-          "cooking_pump_mins_meal": 1.4125,
-          "cooking_dishwasher_water_gal_meal": 0.825,
-          "cooking_kitchen_faucet_gal_meal": 0.5,
-          "toilet_cycles_day_person": 3,
-          "toilet_pump_min_cycle": 0.967,
-          "toilet_vent_fan_min_cycle": 2.5,
-          "toilet_water_heater_min_cycle": 0.167,
-          "toilet_sink_water_gal_cycle": 0.2505,
-          "shower_cycles_day_person": 0.5,
-          "shower_duration_min_cycle": 3,
-          "shower_vent_fan_min_cycle": 10,
-          "shower_electronics_min_cycle": 2,
-          "shower_water_gal_cycle": 6,
-          "laundry_cycles_day_person": 0.1428571429
+          "time_based": {
+            "mins_per_day": {
+              "living_audio": 10,
+              "living_tv": 30,
+              "living_lighting": 240
+            },
+            "hrs_per_day": {
+              "living_smart_glass": 3,
+              "living_electronics": 10,
+              "living_party_lighting": 1,
+              "living_tire_sensors": 24,
+              "living_sensors_controllers": 24,
+              "living_security_cameras": 24,
+              "living_ext_camp_lights": 1,
+              "living_ext_porch_lights": 1,
+              "living_smart_tint": 8
+            },
+            "mins_per_meal": {
+              "cooking_stove": 10,
+              "cooking_microwave": 2,
+              "cooking_garbage_disposal": 0.1666666667,
+              "cooking_consumer_electronics": 3,
+              "cooking_water_heater": 1,
+              "cooking_pump": 1.4125,
+              "cooking_range_hood": 12
+            },
+            "mins_per_cycle": {
+              "toilet_pump": 0.967,
+              "toilet_vent_fan": 2.5,
+              "toilet_water_heater": 0.167,
+              "shower_duration": 3,
+              "shower_vent_fan": 10,
+              "shower_electronics": 2,
+              "shower_water_pump": 3,
+              "laundry_water_heater": 30,
+              "laundry_water_pump": 30
+            }
+          },
+          "count_based": {
+            "cycles_per_day": {
+              "living_smart_key": 2
+            },
+            "meals_per_day": {
+              "cooking": 1
+            },
+            "cycles_per_meal": {
+              "cooking_dishwasher": 0.33
+            },
+            "cycles_per_day_per_person": {
+              "toilet": 3,
+              "shower": 0.5,
+              "laundry": 0.1428571429
+            },
+            "burners_per_meal": {
+              "cooking_stove": 1
+            }
+          },
+          "volume_based": {
+            "gal_per_day": {
+              "living_cleaning": 0.5,
+              "living_drinking_water": 1,
+              "living_ice_maker_water": 0.29
+            },
+            "gal_per_meal": {
+              "cooking_dishwasher_water": 0.825,
+              "cooking_kitchen_faucet": 0.5
+            },
+            "gal_per_cycle": {
+              "toilet_sink_water": 0.2505,
+              "toilet_gravity_flush": 0.4,
+              "shower_water": 6
+            }
+          }
         }
       }
     },
@@ -355,59 +490,6 @@
           "Comfortable": 3532,
           "Humid": 2604
         }
-      }
-    }
-  },
-  "dashboard_outputs": {
-    "title": "Resource Consumption",
-    "categories": [
-      "Living",
-      "Cooking",
-      "Shower",
-      "Toilet",
-      "Laundry",
-      "Actuation",
-      "Dumping",
-      "HVAC & Water"
-    ],
-    "metrics": [
-      "Energy [kWh]",
-      "% Energy",
-      "Water [gal]",
-      "% Water"
-    ],
-    "gauges": {
-      "energy": {
-        "label": "Battery",
-        "unit": "%",
-        "range": [
-          0,
-          100
-        ]
-      },
-      "freshwater": {
-        "label": "Fresh Water",
-        "unit": "%",
-        "range": [
-          0,
-          100
-        ]
-      },
-      "greywater": {
-        "label": "Grey Water",
-        "unit": "%",
-        "range": [
-          0,
-          100
-        ]
-      },
-      "blackwater": {
-        "label": "Black Water",
-        "unit": "%",
-        "range": [
-          0,
-          100
-        ]
       }
     }
   }

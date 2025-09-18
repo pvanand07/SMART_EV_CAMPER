@@ -589,6 +589,7 @@ results = calculator.calculate()
 summary = results['summary']
 breakdown = results['breakdown']
 tanks = summary['final_tank_levels']
+dump_trips = summary['waste_summary']['required_dump_trips']
 
 # --- DISPLAY RESULTS IN TABS ---
 tab1, tab2, tab3, tab4 = st.tabs(["📊 Executive Dashboard", "📈 Analytics & Trends", "🔢 Detailed Summary", "📝 Raw Data"])
@@ -609,8 +610,9 @@ with tab1:
         st.metric("Fresh Water Remaining", f"{fresh_remaining:.1f}%", water_status)
     
     with col3:
-        dump_trips = summary['waste_summary']['required_dump_trips']
-        st.metric("Required Dump Trips", f"{dump_trips}", "📍 Plan accordingly")
+        grey_dumps = summary['waste_summary']['grey_water_dump_trips']
+        black_dumps = summary['waste_summary']['black_water_dump_trips']
+        st.metric("Grey / Black Dump Trips", f"{grey_dumps} / {black_dumps}", "📍 Plan accordingly")
     
     with col4:
         energy_independence = min(100, (summary['total_production']['solar_energy_kwh'] / summary['total_consumption']['energy_kwh'] * 100)) if summary['total_consumption']['energy_kwh'] > 0 else 100
@@ -716,10 +718,12 @@ with tab3:
         )
     
     with col3:
+        grey_dumps = summary['waste_summary']['grey_water_dump_trips']
+        black_dumps = summary['waste_summary']['black_water_dump_trips']
         st.metric(
-            "Required Dump Trips", 
-            f"{summary['waste_summary']['required_dump_trips']}",
-            delta="Plan route accordingly"
+            "Grey / Black Dump Trips",
+            f"{grey_dumps} / {black_dumps}",
+            delta=f"Total: {max(grey_dumps, black_dumps)} trips"
         )
     
     with col4:
