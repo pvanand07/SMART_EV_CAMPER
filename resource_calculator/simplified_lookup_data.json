@@ -1,0 +1,273 @@
+{
+  "description": "Simplified lookup data structure for modular resource calculations",
+  "components": {
+    "living": {
+      "Audio Amplifier": {
+        "power_w": 72,
+        "idle_w": 12
+      },
+      "Television": {
+        "power_w": 84.0,
+        "idle_w": 0
+      },
+      "Lighting": {
+        "power_w": 144,
+        "idle_w": 0
+      },
+      "Refrigerator": {
+        "power_w": 61.644000000000005,
+        "idle_w": 61.644000000000005
+      },
+      "Smart Glass": {
+        "power_w": 86.004,
+        "idle_w": 99.99600000000001
+      },
+      "Electronics": {
+        "power_w": 600,
+        "idle_w": 0
+      },
+      "Party Lighting": {
+        "power_w": 219.99960000000002,
+        "idle_w": 0
+      },
+      "Cameras": {
+        "power_w": 24,
+        "idle_w": 0
+      }
+    },
+    "cooking": {
+      "Stove": {
+        "power_w": 3000.0,
+        "idle_w": 0,
+        "burner_multiplier": true
+      },
+      "Microwave": {
+        "power_w": 999.996,
+        "idle_w": 0
+      },
+      "Dishwasher": {
+        "power_w": 642.0,
+        "idle_w": 0,
+        "cycle_time_min": 80,
+        "water_gal_per_cycle": 1.25
+      },
+      "Water Heater": {
+        "power_w": 8016.0,
+        "idle_w": 0
+      },
+      "Range Hood": {
+        "power_w": 422.4,
+        "idle_w": 0
+      }
+    },
+    "bathroom": {
+      "Electric Shower": {
+        "power_w": 7920,
+        "idle_w": 0
+      },
+      "Water Pump": {
+        "power_w": 102.0,
+        "idle_w": 0
+      },
+      "Vent Fan": {
+        "power_w": 22.799999999999997,
+        "idle_w": 0
+      }
+    },
+    "laundry": {
+      "Washer Dryer": {
+        "power_w": 1800,
+        "idle_w": 0,
+        "cycle_time_min": 80,
+        "water_gal_per_cycle": 20.6
+      }
+    },
+    "operational": {
+      "Room Actuators": {
+        "power_w": 268.00800000000004,
+        "idle_w": 0,
+        "cycle_time_sec": 30
+      },
+      "Dump Valves": {
+        "power_w": 30.0,
+        "idle_w": 0,
+        "cycle_time_sec": 6
+      }
+    }
+  },
+  "user_profiles": {
+    "Glamper": {
+      "daily_usage": {
+        "audio_mins": 240,
+        "tv_mins": 120,
+        "lighting_mins": 450,
+        "smart_glass_hrs": 10,
+        "electronics_hrs": 24,
+        "party_lighting_hrs": 6,
+        "drinking_water_gal": 0.5,
+        "cleaning_water_gal": 0.75,
+        "ice_water_gal": 0.29
+      },
+      "meal_patterns": {
+        "meals_per_day": 3,
+        "stove_mins_per_meal": 20,
+        "stove_burners_per_meal": 2,
+        "microwave_mins_per_meal": 5,
+        "dishwasher_cycles_per_meal": 1,
+        "water_heater_mins_per_meal": 4,
+        "kitchen_water_gal_per_meal": 2
+      },
+      "personal_care": {
+        "toilet_cycles_per_day": 7,
+        "toilet_sink_water_gal_per_cycle": 0.495,
+        "toilet_flush_water_gal_per_cycle": 0.4,
+        "shower_cycles_per_day": 1.5,
+        "shower_duration_mins": 10,
+        "shower_water_gal_per_cycle": 20,
+        "laundry_cycles_per_day": 0.3333333333
+      }
+    },
+    "Typical": {
+      "daily_usage": {
+        "audio_mins": 120,
+        "tv_mins": 60,
+        "lighting_mins": 300,
+        "smart_glass_hrs": 6,
+        "electronics_hrs": 16,
+        "party_lighting_hrs": 2.5,
+        "drinking_water_gal": 0.75,
+        "cleaning_water_gal": 0.625,
+        "ice_water_gal": 0.29
+      },
+      "meal_patterns": {
+        "meals_per_day": 2,
+        "stove_mins_per_meal": 15,
+        "stove_burners_per_meal": 1,
+        "microwave_mins_per_meal": 3.5,
+        "dishwasher_cycles_per_meal": 0.5,
+        "water_heater_mins_per_meal": 3,
+        "kitchen_water_gal_per_meal": 1.5
+      },
+      "personal_care": {
+        "toilet_cycles_per_day": 5,
+        "toilet_sink_water_gal_per_cycle": 0.375,
+        "toilet_flush_water_gal_per_cycle": 0.4,
+        "shower_cycles_per_day": 1,
+        "shower_duration_mins": 6,
+        "shower_water_gal_per_cycle": 12,
+        "laundry_cycles_per_day": 0.2
+      }
+    },
+    "Expert": {
+      "daily_usage": {
+        "audio_mins": 10,
+        "tv_mins": 30,
+        "lighting_mins": 240,
+        "smart_glass_hrs": 3,
+        "electronics_hrs": 10,
+        "party_lighting_hrs": 1,
+        "drinking_water_gal": 1,
+        "cleaning_water_gal": 0.5,
+        "ice_water_gal": 0.29
+      },
+      "meal_patterns": {
+        "meals_per_day": 1,
+        "stove_mins_per_meal": 10,
+        "stove_burners_per_meal": 1,
+        "microwave_mins_per_meal": 2,
+        "dishwasher_cycles_per_meal": 0.33,
+        "water_heater_mins_per_meal": 1,
+        "kitchen_water_gal_per_meal": 0.5
+      },
+      "personal_care": {
+        "toilet_cycles_per_day": 3,
+        "toilet_sink_water_gal_per_cycle": 0.2505,
+        "toilet_flush_water_gal_per_cycle": 0.4,
+        "shower_cycles_per_day": 0.5,
+        "shower_duration_mins": 3,
+        "shower_water_gal_per_cycle": 6,
+        "laundry_cycles_per_day": 0.1428571429
+      }
+    }
+  },
+  "environmental_systems": {
+    "hvac": {
+      "description": "HVAC energy consumption and water generation by temperature",
+      "energy_consumption_wh_per_day": {
+        "Hot": 6923.75,
+        "Temperate": 744.68,
+        "Cold": 15615.35
+      },
+      "water_generation_gph": {
+        "Hot": {
+          "Humid": 0.0,
+          "Comfortable": 0.0,
+          "Dry": 0.0
+        },
+        "Temperate": {
+          "Humid": 0.0,
+          "Comfortable": 0.0,
+          "Dry": 0.0
+        },
+        "Cold": {
+          "Humid": 0.8500000000000001,
+          "Comfortable": 0.55,
+          "Dry": 0.25
+        }
+      }
+    },
+    "solar": {
+      "description": "Solar generation factors by environmental conditions",
+      "system_efficiency": 0.9,
+      "base_insolation_wh_per_m2_per_day": {
+        "Hot": {
+          "Dry": 10022,
+          "Comfortable": 9514,
+          "Humid": 7526
+        },
+        "Temperate": {
+          "Dry": 7231,
+          "Comfortable": 6821,
+          "Humid": 5340
+        },
+        "Cold": {
+          "Dry": 3758,
+          "Comfortable": 3532,
+          "Humid": 2604
+        }
+      },
+      "sunlight_multiplier": {
+        "Hi- Sunny": 1.0,
+        "Mid- Cloudy": 0.5,
+        "Lo- Shady": 0.25
+      },
+      "tilt_multiplier": {
+        "Hot": 0.8,
+        "Temperate": 0.8,
+        "Cold": 0.75
+      }
+    }
+  },
+  "trailer_specs": {
+    "description": "Physical capacities and limits",
+    "battery_capacity_kwh": 100,
+    "solar_capacity_kw": 5.25,
+    "freshwater_capacity_gal": 100,
+    "greywater_capacity_gal": 50,
+    "blackwater_capacity_gal": 45
+  },
+  "waste_allocation": {
+    "description": "How consumed water becomes waste water",
+    "greywater_sources": {
+      "shower": 1.0,
+      "laundry": 0.2,
+      "dishwasher": 1.0,
+      "cleaning": 1.0,
+      "toilet_sink": 1.0
+    },
+    "blackwater_sources": {
+      "toilet_flush": 1.0,
+      "kitchen_sink": 0.75
+    }
+  }
+}
