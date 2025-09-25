@@ -362,7 +362,7 @@ body::-webkit-scrollbar {
   background: linear-gradient(145deg, #3b82f6, #2563eb);
   color: white;
   margin-left: auto;
-  text-align: right;
+  text-align: justify;
   box-shadow: 
     0 8px 32px rgba(59, 130, 246, 0.25),
     0 2px 8px rgba(59, 130, 246, 0.15);
@@ -373,7 +373,7 @@ body::-webkit-scrollbar {
   background: rgba(255, 255, 255, 0.95);
   color: #1e293b;
   margin: 8px auto;
-  text-align: center;
+  text-align: justify;
   box-shadow: 
     0 8px 32px rgba(15, 23, 42, 0.12),
     0 2px 8px rgba(15, 23, 42, 0.08);
@@ -639,7 +639,7 @@ body::-webkit-scrollbar {
 
 /* Processing/Streaming state styles */
 .mic-button.processing {
-  background: linear-gradient(145deg, #8b5cf6, #7c3aed) !important;
+  background: linear-gradient(145deg, #8b5cf6, #5b3dbe) !important;
   animation: processingPulse 2s ease-in-out infinite;
 }
 
