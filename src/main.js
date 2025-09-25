@@ -216,6 +216,7 @@ class VoiceAssistantApp {
       const contentElement = this.currentStreamingMessage.querySelector('.message-content');
       console.log('📝 Content element found:', contentElement);
       if (contentElement) {
+        // For streaming, show raw text with cursor, parse markdown on completion
         contentElement.textContent = completeResponse + '|';
         console.log('📝 Updated content:', contentElement.textContent);
       } else {
@@ -236,8 +237,10 @@ class VoiceAssistantApp {
       const contentElement = this.currentStreamingMessage.querySelector('.message-content');
       console.log('✅ Final content element found:', contentElement);
       if (contentElement) {
-        contentElement.textContent = response;
-        console.log('✅ Final content set:', contentElement.textContent);
+        // Parse markdown for final response
+        const parsedContent = this.parseMarkdown(response);
+        contentElement.innerHTML = parsedContent;
+        console.log('✅ Final content set with markdown parsing:', contentElement.innerHTML);
       } else {
         console.error('❌ No .message-content element found for final response');
       }
@@ -370,10 +373,13 @@ class VoiceAssistantApp {
     const messageDiv = document.createElement('div');
     messageDiv.className = `message ${type}`;
     
+    // Parse markdown content
+    const parsedContent = this.parseMarkdown(content);
+    
     // For assistant messages, only show content without header/timestamp
     let messageHTML;
     if (type === 'assistant') {
-      messageHTML = `<div class="message-content">${content}</div>`;
+      messageHTML = `<div class="message-content">${parsedContent}</div>`;
     } else {
       // Keep header for user messages (if any are shown)
       const timestamp = new Date().toLocaleTimeString();
@@ -382,7 +388,7 @@ class VoiceAssistantApp {
           <strong>${type === 'user' ? 'You' : 'Assistant'}</strong>
           <span class="message-time">${timestamp}</span>
         </div>
-        <div class="message-content">${content}</div>
+        <div class="message-content">${parsedContent}</div>
       `;
     }
     
@@ -403,6 +409,41 @@ class VoiceAssistantApp {
     }, 100);
     
     return messageDiv;
+  }
+
+  /**
+   * Parse markdown content safely
+   * @param {string} content - Raw text content that may contain markdown
+   * @returns {string} - HTML string with parsed markdown
+   */
+  parseMarkdown(content) {
+    if (!content) return '';
+    
+    try {
+      // Check if marked library is available
+      if (typeof marked !== 'undefined') {
+        // Configure marked for safe rendering
+        marked.setOptions({
+          breaks: true, // Convert line breaks to <br>
+          gfm: true,    // Enable GitHub Flavored Markdown
+          sanitize: false, // We'll handle sanitization
+          smartLists: true,
+          smartypants: true
+        });
+        
+        // Parse markdown to HTML
+        const htmlContent = marked.parse(content);
+        console.log('✅ Markdown parsed successfully');
+        return htmlContent;
+      } else {
+        console.warn('⚠️ Marked library not available, returning plain text');
+        return content.replace(/\n/g, '<br>');
+      }
+    } catch (error) {
+      console.error('❌ Error parsing markdown:', error);
+      // Fallback to plain text with line breaks
+      return content.replace(/\n/g, '<br>');
+    }
   }
 
   clearConversation() {

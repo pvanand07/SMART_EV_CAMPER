@@ -46,12 +46,16 @@ export class AssistantService {
     try {
       console.log("Sending text query to API...");
       
+      // Get location context
+      const context = await this.getLocationContext();
+      
       const requestBody = {
         query: query,
         conversation_id: this.config.conversation_id,
         model_id: this.config.model_id,
         user_id: this.config.user_id,
         assistant_mode: true,
+        context: context,
         ...options
       };
 
@@ -95,6 +99,9 @@ export class AssistantService {
       console.log("🚀 Config:", this.config);
       console.log("🚀 Options:", options);
       
+      // Get location context
+      const context = await this.getLocationContext();
+      
       const requestBody = {
         query: '',
         conversation_id: this.config.conversation_id,
@@ -102,6 +109,7 @@ export class AssistantService {
         user_id: this.config.user_id,
         assistant_mode: true,
         audio_data: audioBase64,
+        context: context,
         ...options
       };
 
@@ -326,6 +334,105 @@ export class AssistantService {
    */
   getUserId() {
     return this.config.user_id;
+  }
+
+  /**
+   * Get browser location and reverse geocode to location name
+   * @returns {Promise<string>} Location context string
+   */
+  async getLocationContext() {
+    try {
+      const position = await this.getCurrentPosition();
+      const locationName = await this.reverseGeocode(position.coords.latitude, position.coords.longitude);
+      
+      const context = `Location: ${locationName} (${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)})`;
+      console.log("Location context:", context);
+      return context;
+    } catch (error) {
+      console.warn("Could not get location context:", error.message);
+      return "Location: Unknown";
+    }
+  }
+
+  /**
+   * Get current browser position using Geolocation API
+   * @returns {Promise<GeolocationPosition>} Current position
+   */
+  getCurrentPosition() {
+    return new Promise((resolve, reject) => {
+      if (!navigator.geolocation) {
+        reject(new Error("Geolocation is not supported by this browser"));
+        return;
+      }
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          console.log("Got current position:", position);
+          resolve(position);
+        },
+        (error) => {
+          console.warn("Geolocation error:", error);
+          reject(error);
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 10000,
+          maximumAge: 300000 // 5 minutes
+        }
+      );
+    });
+  }
+
+  /**
+   * Reverse geocode coordinates to location name using OpenStreetMap Nominatim
+   * @param {number} lat - Latitude
+   * @param {number} lon - Longitude
+   * @returns {Promise<string>} Location name
+   */
+  async reverseGeocode(lat, lon) {
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10&addressdetails=1`,
+        {
+          headers: {
+            'User-Agent': 'SmartEVCamper/1.0'
+          }
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Reverse geocoding failed: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      // Extract meaningful location information
+      const address = data.address || {};
+      const locationParts = [];
+      
+      // Add city/town/village
+      if (address.city) locationParts.push(address.city);
+      else if (address.town) locationParts.push(address.town);
+      else if (address.village) locationParts.push(address.village);
+      else if (address.hamlet) locationParts.push(address.hamlet);
+      
+      // Add state/region
+      if (address.state) locationParts.push(address.state);
+      else if (address.region) locationParts.push(address.region);
+      
+      // Add country
+      if (address.country) locationParts.push(address.country);
+      
+      const locationName = locationParts.length > 0 
+        ? locationParts.join(', ') 
+        : data.display_name || 'Unknown Location';
+        
+      console.log("Reverse geocoded location:", locationName);
+      return locationName;
+    } catch (error) {
+      console.warn("Reverse geocoding error:", error);
+      return `Coordinates: ${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+    }
   }
 
   /**
