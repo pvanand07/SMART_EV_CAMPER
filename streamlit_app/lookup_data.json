@@ -443,12 +443,12 @@
       "day": {
         "Hot": {"Humid": 0, "Comfortable": 0, "Dry": 0},
         "Temperate": {"Humid": 0, "Comfortable": 0, "Dry": 0},
-        "Cold": {"Humid": 0.8, "Comfortable": 0.5, "Dry": 0.2}
+        "Cold": {"Humid": 0, "Comfortable": 0, "Dry": 0}
       },
       "night": {
         "Hot": {"Humid": 0, "Comfortable": 0, "Dry": 0},
         "Temperate": {"Humid": 0, "Comfortable": 0, "Dry": 0},
-        "Cold": {"Humid": 0.9, "Comfortable": 0.6, "Dry": 0.3}
+        "Cold": {"Humid": 0, "Comfortable": 0, "Dry": 0}
       }
     },
     "waste_production": {

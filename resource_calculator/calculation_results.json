@@ -1,0 +1,114 @@
+{
+  "living": {
+    "energy_kwh": 20.163289133333333,
+    "water_gal": 1.665,
+    "breakdown": {
+      "time_based_kwh": 2.3186789999999995,
+      "always_on_kwh": 17.8440768,
+      "cycle_based_kwh": 0.0005333333333333334,
+      "water_sources_gal": 1.665
+    }
+  },
+  "cooking": {
+    "energy_kwh": 3.5371512000000003,
+    "water_gal": 4.25,
+    "breakdown": {
+      "per_meal_kwh": 2.6811512000000004,
+      "dishwasher_kwh": 0.856,
+      "water_sources_gal": 4.25
+    }
+  },
+  "personal_care": {
+    "energy_kwh": 2.2946700000000004,
+    "water_gal": 19.995,
+    "breakdown": {
+      "toilet_kwh": 0.19497,
+      "shower_kwh": 0.8079000000000001,
+      "laundry_kwh": 1.2918,
+      "toilet_water_gal": 3.875,
+      "shower_water_gal": 12,
+      "laundry_water_gal": 4.12
+    }
+  },
+  "hvac": {
+    "energy_kwh": 3.461875,
+    "water_generation_gal": 0,
+    "breakdown": {
+      "runtime_factor": 0.5,
+      "day_hours": 12,
+      "night_hours": 0,
+      "daily_generation_gal": 0
+    }
+  },
+  "solar": {
+    "generation_kwh": 35.96292,
+    "breakdown": {
+      "daily_generation_kwh": 35.96292,
+      "environmental_factors": {
+        "sunlight_factor": 1.0,
+        "tilt_factor": 0.8,
+        "system_efficiency": 0.9
+      }
+    }
+  },
+  "waste": {
+    "total_fresh_consumed_gal": 25.91,
+    "grey_water_produced_gal": 22.76625,
+    "black_water_produced_gal": 3.14375,
+    "dump_trips_needed": 0,
+    "breakdown": {
+      "grey_dumps_needed": 0,
+      "black_dumps_needed": 0,
+      "grey_capacity_gal": 50,
+      "black_capacity_gal": 45
+    }
+  },
+  "operational": {
+    "energy_kwh": 0.008933599999999998,
+    "breakdown": {
+      "actuation_cycles": 4,
+      "actuation_kwh": 0.008933599999999998,
+      "dumping_trips": 0,
+      "dumping_kwh": 0.0
+    }
+  },
+  "trip_totals": {
+    "energy": {
+      "total_consumption_kwh": 29.46591893333333,
+      "total_generation_kwh": 35.96292,
+      "net_consumption_kwh": -6.497001066666666
+    },
+    "water": {
+      "total_consumption_gal": 25.91,
+      "total_generation_gal": 0,
+      "net_consumption_gal": 25.91
+    },
+    "waste": {
+      "grey_water_gal": 22.76625,
+      "black_water_gal": 3.14375,
+      "dump_trips_needed": 0
+    }
+  },
+  "final_system_status": {
+    "battery": {
+      "final_level_kwh": 106.49700106666667,
+      "final_percentage": 106.49700106666667,
+      "initial_kwh": 100
+    },
+    "freshwater": {
+      "final_level_gal": 74.09,
+      "final_percentage": 74.09,
+      "initial_gal": 100
+    },
+    "greywater": {
+      "final_level_gal": 22.76625,
+      "final_percentage": 45.5325,
+      "capacity_gal": 50
+    },
+    "blackwater": {
+      "final_level_gal": 3.14375,
+      "final_percentage": 6.986111111111111,
+      "capacity_gal": 45
+    }
+  }
+}

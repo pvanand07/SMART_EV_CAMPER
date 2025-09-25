@@ -1,224 +1,1056 @@
 {
-  "description": "Simplified lookup data structure for modular resource calculations",
+  "description": "Complete lookup data preserving all original calculations",
   "components": {
-    "living": {
+    "library": {
       "Audio Amplifier": {
+        "voltage_v": 12,
+        "avg_amps": 6,
+        "idle_amps": 1,
         "power_w": 72,
-        "idle_w": 12
+        "idle_power_w": 12,
+        "water_gal_per_cycle": 0,
+        "category": "living"
       },
       "Television": {
+        "voltage_v": 120,
+        "avg_amps": 0.7,
+        "idle_amps": 0,
         "power_w": 84.0,
-        "idle_w": 0
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
       },
-      "Lighting": {
-        "power_w": 144,
-        "idle_w": 0
+      "Surround Sound": {
+        "voltage_v": 120,
+        "avg_amps": 0.625,
+        "idle_amps": 0.1317,
+        "power_w": 75.0,
+        "idle_power_w": 15.804000000000002,
+        "water_gal_per_cycle": 0,
+        "category": "living"
       },
       "Refrigerator": {
+        "voltage_v": 120,
+        "avg_amps": 0.5137,
+        "idle_amps": 0.5137,
         "power_w": 61.644000000000005,
-        "idle_w": 61.644000000000005
+        "idle_power_w": 61.644000000000005,
+        "water_gal_per_cycle": 0.2857,
+        "category": "living"
       },
-      "Smart Glass": {
-        "power_w": 86.004,
-        "idle_w": 99.99600000000001
+      "Satellite Internet PSU": {
+        "voltage_v": 12,
+        "avg_amps": 2.5,
+        "idle_amps": 0,
+        "power_w": 30.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
       },
-      "Electronics": {
-        "power_w": 600,
-        "idle_w": 0
+      "Lighting": {
+        "voltage_v": 12,
+        "avg_amps": 12,
+        "idle_amps": 0,
+        "power_w": 144,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
       },
-      "Party Lighting": {
-        "power_w": 219.99960000000002,
-        "idle_w": 0
+      "Tire Pressure Sensors": {
+        "voltage_v": 24,
+        "avg_amps": 0.4,
+        "idle_amps": 0,
+        "power_w": 9.600000000000001,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
       },
-      "Cameras": {
+      "Misc. Sensors & Controllers": {
+        "voltage_v": 12,
+        "avg_amps": 0,
+        "idle_amps": 5,
+        "power_w": 0,
+        "idle_power_w": 60,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Security Cameras": {
+        "voltage_v": 12,
+        "avg_amps": 2,
+        "idle_amps": 0,
         "power_w": 24,
-        "idle_w": 0
-      }
-    },
-    "cooking": {
-      "Stove": {
-        "power_w": 3000.0,
-        "idle_w": 0,
-        "burner_multiplier": true
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
       },
-      "Microwave": {
-        "power_w": 999.996,
-        "idle_w": 0
+      "Consumer Electronics": {
+        "voltage_v": 120,
+        "avg_amps": 5,
+        "idle_amps": 0,
+        "power_w": 600,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "shower"
       },
-      "Dishwasher": {
-        "power_w": 642.0,
-        "idle_w": 0,
-        "cycle_time_min": 80,
-        "water_gal_per_cycle": 1.25
+      "Misc. Cleaning": {
+        "voltage_v": 0,
+        "avg_amps": 0,
+        "idle_amps": 0,
+        "power_w": 0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0.625,
+        "category": "living"
       },
-      "Water Heater": {
-        "power_w": 8016.0,
-        "idle_w": 0
+      "Drinking Water Tap": {
+        "voltage_v": 0,
+        "avg_amps": 0,
+        "idle_amps": 0,
+        "power_w": 0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0.75,
+        "category": "living"
       },
-      "Range Hood": {
-        "power_w": 422.4,
-        "idle_w": 0
-      }
-    },
-    "bathroom": {
-      "Electric Shower": {
-        "power_w": 7920,
-        "idle_w": 0
+      "Solar Glycol Pump": {
+        "voltage_v": 12,
+        "avg_amps": 0.7,
+        "idle_amps": 0,
+        "power_w": 8.399999999999999,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
       },
       "Water Pump": {
+        "voltage_v": 12,
+        "avg_amps": 8.5,
+        "idle_amps": 0,
         "power_w": 102.0,
-        "idle_w": 0
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "laundry"
       },
-      "Vent Fan": {
-        "power_w": 22.799999999999997,
-        "idle_w": 0
-      }
-    },
-    "laundry": {
-      "Washer Dryer": {
-        "power_w": 1800,
-        "idle_w": 0,
-        "cycle_time_min": 80,
-        "water_gal_per_cycle": 20.6
-      }
-    },
-    "operational": {
-      "Room Actuators": {
-        "power_w": 268.00800000000004,
-        "idle_w": 0,
-        "cycle_time_sec": 30
+      "UV Water System": {
+        "voltage_v": 12,
+        "avg_amps": 1.8,
+        "idle_amps": 0,
+        "power_w": 21.6,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
       },
-      "Dump Valves": {
+      "Tablet UI": {
+        "voltage_v": 12,
+        "avg_amps": 0.4167,
+        "idle_amps": 0,
+        "power_w": 5.0004,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "SmartTint DC PSU": {
+        "voltage_v": 12,
+        "avg_amps": 2.5,
+        "idle_amps": 0,
         "power_w": 30.0,
-        "idle_w": 0,
-        "cycle_time_sec": 6
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Exterior Camp Lights": {
+        "voltage_v": 12,
+        "avg_amps": 0.054,
+        "idle_amps": 0,
+        "power_w": 0.648,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Exterior Porch Lighting": {
+        "voltage_v": 12,
+        "avg_amps": 0.14,
+        "idle_amps": 0,
+        "power_w": 1.6800000000000002,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Storage Lights": {
+        "voltage_v": 12,
+        "avg_amps": 0.325,
+        "idle_amps": 0,
+        "power_w": 3.9000000000000004,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "LAN Switch PSU": {
+        "voltage_v": 120,
+        "avg_amps": 0.25,
+        "idle_amps": 0,
+        "power_w": 30.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Secure Gateway": {
+        "voltage_v": 12,
+        "avg_amps": 0.8333,
+        "idle_amps": 0.416,
+        "power_w": 9.999600000000001,
+        "idle_power_w": 4.992,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Telematics T-Box": {
+        "voltage_v": 12,
+        "avg_amps": 1.25,
+        "idle_amps": 0.25,
+        "power_w": 15.0,
+        "idle_power_w": 3.0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "4G LTE Antenna": {
+        "voltage_v": 12,
+        "avg_amps": 0,
+        "idle_amps": 0.75,
+        "power_w": 0,
+        "idle_power_w": 9.0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Air Purifier": {
+        "voltage_v": 120,
+        "avg_amps": 0.375,
+        "idle_amps": 0,
+        "power_w": 45.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "AI Compute": {
+        "voltage_v": 12,
+        "avg_amps": 20.8333,
+        "idle_amps": 1.25,
+        "power_w": 249.99960000000002,
+        "idle_power_w": 15.0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Party Lighting": {
+        "voltage_v": 12,
+        "avg_amps": 18.3333,
+        "idle_amps": 0,
+        "power_w": 219.99960000000002,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Smart Glass Display": {
+        "voltage_v": 120,
+        "avg_amps": 0.7167,
+        "idle_amps": 0.8333,
+        "power_w": 86.004,
+        "idle_power_w": 99.99600000000001,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Smart Key Lighting": {
+        "voltage_v": 12,
+        "avg_amps": 8,
+        "idle_amps": 0.004,
+        "power_w": 96,
+        "idle_power_w": 0.048,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Home Assistant Server": {
+        "voltage_v": 12,
+        "avg_amps": 12.5,
+        "idle_amps": 0.004,
+        "power_w": 150.0,
+        "idle_power_w": 0.048,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "HVAC Controller": {
+        "voltage_v": 12,
+        "avg_amps": 7.855,
+        "idle_amps": 0.01,
+        "power_w": 94.26,
+        "idle_power_w": 0.12,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Obstruction Sensors": {
+        "voltage_v": 12,
+        "avg_amps": 1,
+        "idle_amps": 0.01,
+        "power_w": 12,
+        "idle_power_w": 0.12,
+        "water_gal_per_cycle": 0,
+        "category": "living"
+      },
+      "Stove": {
+        "voltage_v": 240,
+        "avg_amps": 12.5,
+        "idle_amps": 0,
+        "power_w": 3000.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "cooking"
+      },
+      "Microwave": {
+        "voltage_v": 120,
+        "avg_amps": 8.3333,
+        "idle_amps": 0,
+        "power_w": 999.996,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "cooking"
+      },
+      "Dishwasher": {
+        "voltage_v": 120,
+        "avg_amps": 5.35,
+        "idle_amps": 0,
+        "power_w": 642.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 1.25,
+        "category": "cooking"
+      },
+      "Garbage Disposal": {
+        "voltage_v": 120,
+        "avg_amps": 5.6,
+        "idle_amps": 0,
+        "power_w": 672.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "cooking"
+      },
+      "Range Hood": {
+        "voltage_v": 120,
+        "avg_amps": 3.52,
+        "idle_amps": 0,
+        "power_w": 422.4,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "cooking"
+      },
+      "Tankless Water Heater": {
+        "voltage_v": 240,
+        "avg_amps": 33.4,
+        "idle_amps": 0,
+        "power_w": 8016.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "laundry"
+      },
+      "Kitchen Faucet": {
+        "voltage_v": 0,
+        "avg_amps": 0,
+        "idle_amps": 0,
+        "power_w": 0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 1.5,
+        "category": "cooking"
+      },
+      "Grey Water Pump": {
+        "voltage_v": 12,
+        "avg_amps": 2.4,
+        "idle_amps": 0,
+        "power_w": 28.799999999999997,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "toilet"
+      },
+      "Bathroom Vent Fan": {
+        "voltage_v": 12,
+        "avg_amps": 1.9,
+        "idle_amps": 0,
+        "power_w": 22.799999999999997,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "shower"
+      },
+      "Macerating Pump": {
+        "voltage_v": 12,
+        "avg_amps": 17,
+        "idle_amps": 0,
+        "power_w": 204,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "toilet"
+      },
+      "Bathroom Sink": {
+        "voltage_v": 12,
+        "avg_amps": 1.9,
+        "idle_amps": 0,
+        "power_w": 22.799999999999997,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0.375,
+        "category": "toilet"
+      },
+      "Electric Shower": {
+        "voltage_v": 240,
+        "avg_amps": 33,
+        "idle_amps": 0,
+        "power_w": 7920,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "shower"
+      },
+      "Washer/Dryer Combo": {
+        "voltage_v": 120,
+        "avg_amps": 15,
+        "idle_amps": 0,
+        "power_w": 1800,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 20.6,
+        "category": "laundry"
+      },
+      "Side Room Floor": {
+        "voltage_v": 24,
+        "avg_amps": 1.4,
+        "idle_amps": 0,
+        "power_w": 33.599999999999994,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Side Room Wall": {
+        "voltage_v": 24,
+        "avg_amps": 1.1,
+        "idle_amps": 0,
+        "power_w": 26.400000000000002,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Front Room": {
+        "voltage_v": 24,
+        "avg_amps": 0.427,
+        "idle_amps": 0,
+        "power_w": 10.248,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Rear Room": {
+        "voltage_v": 24,
+        "avg_amps": 0.61,
+        "idle_amps": 0,
+        "power_w": 14.64,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Chassis Leveling Jacks": {
+        "voltage_v": 24,
+        "avg_amps": 9.3,
+        "idle_amps": 0,
+        "power_w": 223.20000000000002,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Room Support Jacks": {
+        "voltage_v": 12,
+        "avg_amps": 15,
+        "idle_amps": 0,
+        "power_w": 180,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Gearage": {
+        "voltage_v": 24,
+        "avg_amps": 0.13,
+        "idle_amps": 0,
+        "power_w": 3.12,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Awning": {
+        "voltage_v": 12,
+        "avg_amps": 10,
+        "idle_amps": 0,
+        "power_w": 120,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Furniture Automation": {
+        "voltage_v": 120,
+        "avg_amps": 10,
+        "idle_amps": 0,
+        "power_w": 1200,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "TV Rise": {
+        "voltage_v": 120,
+        "avg_amps": 3.5,
+        "idle_amps": 0,
+        "power_w": 420.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Electric Tongue Jack": {
+        "voltage_v": 12,
+        "avg_amps": 30,
+        "idle_amps": 0,
+        "power_w": 360,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Motor Controllers": {
+        "voltage_v": 12,
+        "avg_amps": 1.25,
+        "idle_amps": 0,
+        "power_w": 15.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "actuation"
+      },
+      "Electric Waste Valves": {
+        "voltage_v": 12,
+        "avg_amps": 2.5,
+        "idle_amps": 0,
+        "power_w": 30.0,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "dumping"
+      },
+      "Mini-Split HVAC (Hot/Cold)": {
+        "voltage_v": 240,
+        "avg_amps": 9.205,
+        "idle_amps": 0,
+        "power_w": 2209.2,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "hvac"
+      },
+      "Mini-Split HVAC (Temperate)": {
+        "voltage_v": 240,
+        "avg_amps": 4.082,
+        "idle_amps": 0,
+        "power_w": 979.68,
+        "idle_power_w": 0,
+        "water_gal_per_cycle": 0,
+        "category": "hvac"
+      }
+    },
+    "activity_groups": {
+      "living_time_based": {
+        "description": "Components that run for specific minutes/hours per day",
+        "components": {
+          "Audio Amplifier": {
+            "usage_key": "living_audio",
+            "unit": "mins_per_day"
+          },
+          "Television": {
+            "usage_key": "living_tv",
+            "unit": "mins_per_day"
+          },
+          "Lighting": {
+            "usage_key": "living_lighting",
+            "unit": "mins_per_day"
+          },
+          "Smart Glass Display": {
+            "usage_key": "living_smart_glass",
+            "unit": "hrs_per_day"
+          },
+          "Consumer Electronics": {
+            "usage_key": "living_electronics",
+            "unit": "hrs_per_day"
+          },
+          "Party Lighting": {
+            "usage_key": "living_party_lighting",
+            "unit": "hrs_per_day"
+          },
+          "Exterior Camp Lights": {
+            "usage_key": "living_ext_camp_lights",
+            "unit": "hrs_per_day"
+          },
+          "Exterior Porch Lighting": {
+            "usage_key": "living_ext_porch_lights",
+            "unit": "hrs_per_day"
+          },
+          "SmartTint DC PSU": {
+            "usage_key": "living_smart_tint",
+            "unit": "hrs_per_day"
+          }
+        }
+      },
+      "living_always_on": {
+        "description": "Components that run 24/7 with idle power",
+        "components": {
+          "Refrigerator": {
+            "runtime_hrs": 24
+          },
+          "Satellite Internet PSU": {
+            "runtime_hrs": 24
+          },
+          "Tire Pressure Sensors": {
+            "runtime_hrs": 24
+          },
+          "Misc. Sensors & Controllers": {
+            "runtime_hrs": 24
+          },
+          "Security Cameras": {
+            "runtime_hrs": 24
+          },
+          "AI Compute": {
+            "runtime_hrs": 24
+          },
+          "LAN Switch PSU": {
+            "runtime_hrs": 24
+          },
+          "Secure Gateway": {
+            "runtime_hrs": 24
+          },
+          "Telematics T-Box": {
+            "runtime_hrs": 24
+          },
+          "4G LTE Antenna": {
+            "runtime_hrs": 24
+          },
+          "Home Assistant Server": {
+            "runtime_hrs": 24
+          },
+          "HVAC Controller": {
+            "runtime_hrs": 24
+          }
+        }
+      },
+      "living_special_cycles": {
+        "description": "Components with special cycle logic",
+        "components": {
+          "Smart Key Lighting": {
+            "cycle_duration_seconds": 5,
+            "usage_key": "living_smart_key",
+            "unit": "cycles_per_day"
+          }
+        }
+      },
+      "cooking_per_meal": {
+        "description": "Components that run per meal with specific patterns",
+        "components": {
+          "Stove": {
+            "usage_key": "cooking_stove",
+            "unit": "mins_per_meal",
+            "multiplier_key": "burners_per_meal",
+            "special_logic": "burner_multiplication"
+          },
+          "Microwave": {
+            "usage_key": "cooking_microwave",
+            "unit": "mins_per_meal"
+          },
+          "Garbage Disposal": {
+            "usage_key": "cooking_garbage_disposal",
+            "unit": "mins_per_meal"
+          },
+          "Consumer Electronics": {
+            "usage_key": "cooking_consumer_electronics",
+            "unit": "mins_per_meal"
+          },
+          "Tankless Water Heater": {
+            "usage_key": "cooking_water_heater",
+            "unit": "mins_per_meal"
+          },
+          "Water Pump": {
+            "usage_key": "cooking_pump",
+            "unit": "mins_per_meal"
+          },
+          "Range Hood": {
+            "usage_key": "cooking_range_hood",
+            "unit": "mins_per_meal"
+          }
+        }
+      },
+      "cooking_dishwasher": {
+        "description": "Dishwasher with fixed cycle time",
+        "components": {
+          "Dishwasher": {
+            "cycle_time_minutes": 80,
+            "usage_key": "cooking_dishwasher",
+            "unit": "cycles_per_meal"
+          }
+        }
+      },
+      "toilet_per_cycle": {
+        "description": "Components that run per toilet cycle per person",
+        "components": {
+          "Grey Water Pump": {
+            "usage_key": "toilet_pump",
+            "unit": "mins_per_cycle"
+          },
+          "Bathroom Vent Fan": {
+            "usage_key": "toilet_vent_fan",
+            "unit": "mins_per_cycle"
+          },
+          "Macerating Pump": {
+            "usage_key": "toilet_pump",
+            "unit": "mins_per_cycle"
+          },
+          "Tankless Water Heater": {
+            "usage_key": "toilet_water_heater",
+            "unit": "mins_per_cycle"
+          }
+        }
+      },
+      "shower_per_cycle": {
+        "description": "Components that run per shower cycle per person",
+        "components": {
+          "Electric Shower": {
+            "usage_key": "shower_duration",
+            "unit": "mins_per_cycle"
+          },
+          "Bathroom Vent Fan": {
+            "usage_key": "shower_vent_fan",
+            "unit": "mins_per_cycle"
+          },
+          "Consumer Electronics": {
+            "usage_key": "shower_electronics",
+            "unit": "mins_per_cycle"
+          },
+          "Water Pump": {
+            "usage_key": "shower_water_pump",
+            "unit": "mins_per_cycle"
+          }
+        }
+      },
+      "laundry_per_cycle": {
+        "description": "Components that run per laundry cycle per person",
+        "components": {
+          "Washer/Dryer Combo": {
+            "cycle_time_minutes": 80,
+            "usage_key": "laundry",
+            "unit": "cycles_per_day_per_person"
+          },
+          "Tankless Water Heater": {
+            "usage_key": "laundry_water_heater",
+            "unit": "mins_per_cycle"
+          },
+          "Water Pump": {
+            "usage_key": "laundry_water_pump",
+            "unit": "mins_per_cycle"
+          }
+        }
+      },
+      "actuation_per_cycle": {
+        "description": "Components that actuate together for setup/teardown",
+        "components": {
+          "Side Room Floor": {
+            "cycle_time_seconds": 30
+          },
+          "Side Room Wall": {
+            "cycle_time_seconds": 30
+          },
+          "Front Room": {
+            "cycle_time_seconds": 30
+          },
+          "Rear Room": {
+            "cycle_time_seconds": 30
+          },
+          "Room Support Jacks": {
+            "cycle_time_seconds": 30
+          },
+          "Gearage": {
+            "cycle_time_seconds": 30
+          }
+        },
+        "cycle_logic": "base_cycles_2_plus_relocations_plus_dump_trips_times_2"
+      },
+      "dumping_per_trip": {
+        "description": "Components for waste dumping operations",
+        "components": {
+          "Electric Waste Valves": {
+            "cycle_time_seconds": 6
+          }
+        }
       }
     }
   },
   "user_profiles": {
     "Glamper": {
-      "daily_usage": {
-        "audio_mins": 240,
-        "tv_mins": 120,
-        "lighting_mins": 450,
-        "smart_glass_hrs": 10,
-        "electronics_hrs": 24,
-        "party_lighting_hrs": 6,
-        "drinking_water_gal": 0.5,
-        "cleaning_water_gal": 0.75,
-        "ice_water_gal": 0.29
+      "time_based": {
+        "mins_per_day": {
+          "living_audio": 240,
+          "living_tv": 120,
+          "living_lighting": 450
+        },
+        "hrs_per_day": {
+          "living_smart_glass": 10,
+          "living_electronics": 24,
+          "living_party_lighting": 6,
+          "living_tire_sensors": 24,
+          "living_sensors_controllers": 24,
+          "living_security_cameras": 24,
+          "living_ext_camp_lights": 4,
+          "living_ext_porch_lights": 4,
+          "living_smart_tint": 12
+        },
+        "mins_per_meal": {
+          "cooking_stove": 20,
+          "cooking_microwave": 5,
+          "cooking_garbage_disposal": 1,
+          "cooking_consumer_electronics": 8,
+          "cooking_water_heater": 4,
+          "cooking_pump": 5.585,
+          "cooking_range_hood": 22
+        },
+        "mins_per_cycle": {
+          "toilet_pump": 1.13,
+          "toilet_vent_fan": 5,
+          "toilet_water_heater": 0.33,
+          "shower_duration": 10,
+          "shower_vent_fan": 20,
+          "shower_electronics": 10,
+          "shower_water_pump": 10,
+          "laundry_water_heater": 30,
+          "laundry_water_pump": 30
+        }
       },
-      "meal_patterns": {
-        "meals_per_day": 3,
-        "stove_mins_per_meal": 20,
-        "stove_burners_per_meal": 2,
-        "microwave_mins_per_meal": 5,
-        "dishwasher_cycles_per_meal": 1,
-        "water_heater_mins_per_meal": 4,
-        "kitchen_water_gal_per_meal": 2
+      "count_based": {
+        "cycles_per_day": {
+          "living_smart_key": 8
+        },
+        "meals_per_day": {
+          "cooking": 3
+        },
+        "cycles_per_meal": {
+          "cooking_dishwasher": 1
+        },
+        "cycles_per_day_per_person": {
+          "toilet": 7,
+          "shower": 1.5,
+          "laundry": 0.3333333333
+        },
+        "burners_per_meal": {
+          "cooking_stove": 2
+        }
       },
-      "personal_care": {
-        "toilet_cycles_per_day": 7,
-        "toilet_sink_water_gal_per_cycle": 0.495,
-        "toilet_flush_water_gal_per_cycle": 0.4,
-        "shower_cycles_per_day": 1.5,
-        "shower_duration_mins": 10,
-        "shower_water_gal_per_cycle": 20,
-        "laundry_cycles_per_day": 0.3333333333
+      "volume_based": {
+        "gal_per_day": {
+          "living_cleaning": 0.75,
+          "living_drinking_water": 0.5,
+          "living_ice_maker_water": 0.29
+        },
+        "gal_per_meal": {
+          "cooking_dishwasher_water": 3.17,
+          "cooking_kitchen_faucet": 2
+        },
+        "gal_per_cycle": {
+          "toilet_sink_water": 0.495,
+          "toilet_gravity_flush": 0.4,
+          "shower_water": 20
+        }
       }
     },
     "Typical": {
-      "daily_usage": {
-        "audio_mins": 120,
-        "tv_mins": 60,
-        "lighting_mins": 300,
-        "smart_glass_hrs": 6,
-        "electronics_hrs": 16,
-        "party_lighting_hrs": 2.5,
-        "drinking_water_gal": 0.75,
-        "cleaning_water_gal": 0.625,
-        "ice_water_gal": 0.29
+      "time_based": {
+        "mins_per_day": {
+          "living_audio": 120,
+          "living_tv": 60,
+          "living_lighting": 300
+        },
+        "hrs_per_day": {
+          "living_smart_glass": 6,
+          "living_electronics": 16,
+          "living_party_lighting": 2.5,
+          "living_tire_sensors": 24,
+          "living_sensors_controllers": 24,
+          "living_security_cameras": 24,
+          "living_ext_camp_lights": 2,
+          "living_ext_porch_lights": 2,
+          "living_smart_tint": 10
+        },
+        "mins_per_meal": {
+          "cooking_stove": 15,
+          "cooking_microwave": 3.5,
+          "cooking_garbage_disposal": 0.5,
+          "cooking_consumer_electronics": 5,
+          "cooking_water_heater": 3,
+          "cooking_pump": 3.625,
+          "cooking_range_hood": 17
+        },
+        "mins_per_cycle": {
+          "toilet_pump": 1.05,
+          "toilet_vent_fan": 4,
+          "toilet_water_heater": 0.25,
+          "shower_duration": 6,
+          "shower_vent_fan": 15,
+          "shower_electronics": 5,
+          "shower_water_pump": 6,
+          "laundry_water_heater": 30,
+          "laundry_water_pump": 30
+        }
       },
-      "meal_patterns": {
-        "meals_per_day": 2,
-        "stove_mins_per_meal": 15,
-        "stove_burners_per_meal": 1,
-        "microwave_mins_per_meal": 3.5,
-        "dishwasher_cycles_per_meal": 0.5,
-        "water_heater_mins_per_meal": 3,
-        "kitchen_water_gal_per_meal": 1.5
+      "count_based": {
+        "cycles_per_day": {
+          "living_smart_key": 4
+        },
+        "meals_per_day": {
+          "cooking": 2
+        },
+        "cycles_per_meal": {
+          "cooking_dishwasher": 0.5
+        },
+        "cycles_per_day_per_person": {
+          "toilet": 5,
+          "shower": 1,
+          "laundry": 0.2
+        },
+        "burners_per_meal": {
+          "cooking_stove": 1
+        }
       },
-      "personal_care": {
-        "toilet_cycles_per_day": 5,
-        "toilet_sink_water_gal_per_cycle": 0.375,
-        "toilet_flush_water_gal_per_cycle": 0.4,
-        "shower_cycles_per_day": 1,
-        "shower_duration_mins": 6,
-        "shower_water_gal_per_cycle": 12,
-        "laundry_cycles_per_day": 0.2
+      "volume_based": {
+        "gal_per_day": {
+          "living_cleaning": 0.625,
+          "living_drinking_water": 0.75,
+          "living_ice_maker_water": 0.29
+        },
+        "gal_per_meal": {
+          "cooking_dishwasher_water": 1.25,
+          "cooking_kitchen_faucet": 1.5
+        },
+        "gal_per_cycle": {
+          "toilet_sink_water": 0.375,
+          "toilet_gravity_flush": 0.4,
+          "shower_water": 12
+        }
       }
     },
     "Expert": {
-      "daily_usage": {
-        "audio_mins": 10,
-        "tv_mins": 30,
-        "lighting_mins": 240,
-        "smart_glass_hrs": 3,
-        "electronics_hrs": 10,
-        "party_lighting_hrs": 1,
-        "drinking_water_gal": 1,
-        "cleaning_water_gal": 0.5,
-        "ice_water_gal": 0.29
+      "time_based": {
+        "mins_per_day": {
+          "living_audio": 10,
+          "living_tv": 30,
+          "living_lighting": 240
+        },
+        "hrs_per_day": {
+          "living_smart_glass": 3,
+          "living_electronics": 10,
+          "living_party_lighting": 1,
+          "living_tire_sensors": 24,
+          "living_sensors_controllers": 24,
+          "living_security_cameras": 24,
+          "living_ext_camp_lights": 1,
+          "living_ext_porch_lights": 1,
+          "living_smart_tint": 8
+        },
+        "mins_per_meal": {
+          "cooking_stove": 10,
+          "cooking_microwave": 2,
+          "cooking_garbage_disposal": 0.1666666667,
+          "cooking_consumer_electronics": 3,
+          "cooking_water_heater": 1,
+          "cooking_pump": 1.4125,
+          "cooking_range_hood": 12
+        },
+        "mins_per_cycle": {
+          "toilet_pump": 0.967,
+          "toilet_vent_fan": 2.5,
+          "toilet_water_heater": 0.167,
+          "shower_duration": 3,
+          "shower_vent_fan": 10,
+          "shower_electronics": 2,
+          "shower_water_pump": 3,
+          "laundry_water_heater": 30,
+          "laundry_water_pump": 30
+        }
       },
-      "meal_patterns": {
-        "meals_per_day": 1,
-        "stove_mins_per_meal": 10,
-        "stove_burners_per_meal": 1,
-        "microwave_mins_per_meal": 2,
-        "dishwasher_cycles_per_meal": 0.33,
-        "water_heater_mins_per_meal": 1,
-        "kitchen_water_gal_per_meal": 0.5
+      "count_based": {
+        "cycles_per_day": {
+          "living_smart_key": 2
+        },
+        "meals_per_day": {
+          "cooking": 1
+        },
+        "cycles_per_meal": {
+          "cooking_dishwasher": 0.33
+        },
+        "cycles_per_day_per_person": {
+          "toilet": 3,
+          "shower": 0.5,
+          "laundry": 0.1428571429
+        },
+        "burners_per_meal": {
+          "cooking_stove": 1
+        }
       },
-      "personal_care": {
-        "toilet_cycles_per_day": 3,
-        "toilet_sink_water_gal_per_cycle": 0.2505,
-        "toilet_flush_water_gal_per_cycle": 0.4,
-        "shower_cycles_per_day": 0.5,
-        "shower_duration_mins": 3,
-        "shower_water_gal_per_cycle": 6,
-        "laundry_cycles_per_day": 0.1428571429
+      "volume_based": {
+        "gal_per_day": {
+          "living_cleaning": 0.5,
+          "living_drinking_water": 1,
+          "living_ice_maker_water": 0.29
+        },
+        "gal_per_meal": {
+          "cooking_dishwasher_water": 0.825,
+          "cooking_kitchen_faucet": 0.5
+        },
+        "gal_per_cycle": {
+          "toilet_sink_water": 0.2505,
+          "toilet_gravity_flush": 0.4,
+          "shower_water": 6
+        }
       }
     }
   },
   "environmental_systems": {
     "hvac": {
-      "description": "HVAC energy consumption and water generation by temperature",
+      "description": "HVAC with separate day/night water generation rates",
       "energy_consumption_wh_per_day": {
         "Hot": 6923.75,
         "Temperate": 744.68,
         "Cold": 15615.35
       },
       "water_generation_gph": {
-        "Hot": {
-          "Humid": 0.0,
-          "Comfortable": 0.0,
-          "Dry": 0.0
+        "day_rates": {
+          "Hot": {
+            "Humid": 0,
+            "Comfortable": 0,
+            "Dry": 0
+          },
+          "Temperate": {
+            "Humid": 0,
+            "Comfortable": 0,
+            "Dry": 0
+          },
+          "Cold": {
+            "Humid": 0.8,
+            "Comfortable": 0.5,
+            "Dry": 0.2
+          }
         },
-        "Temperate": {
-          "Humid": 0.0,
-          "Comfortable": 0.0,
-          "Dry": 0.0
+        "night_rates": {
+          "Hot": {
+            "Humid": 0,
+            "Comfortable": 0,
+            "Dry": 0
+          },
+          "Temperate": {
+            "Humid": 0,
+            "Comfortable": 0,
+            "Dry": 0
+          },
+          "Cold": {
+            "Humid": 0.9,
+            "Comfortable": 0.6,
+            "Dry": 0.3
+          }
         },
-        "Cold": {
-          "Humid": 0.8500000000000001,
-          "Comfortable": 0.55,
-          "Dry": 0.25
-        }
+        "split_logic": "day_hours_max_12_night_hours_remainder"
       }
     },
     "solar": {
-      "description": "Solar generation factors by environmental conditions",
-      "system_efficiency": 0.9,
+      "description": "Solar generation with full environmental factor calculation",
+      "system_loss_factor": 0.9,
       "base_insolation_wh_per_m2_per_day": {
         "Hot": {
           "Dry": 10022,
@@ -236,16 +1068,17 @@
           "Humid": 2604
         }
       },
-      "sunlight_multiplier": {
+      "sunlight_factor": {
         "Hi- Sunny": 1.0,
         "Mid- Cloudy": 0.5,
         "Lo- Shady": 0.25
       },
-      "tilt_multiplier": {
+      "tilt_factor": {
         "Hot": 0.8,
         "Temperate": 0.8,
         "Cold": 0.75
-      }
+      },
+      "calculation_formula": "solar_capacity_kw * (insolation/1000) * sunlight_factor * tilt_factor * loss_factor"
     }
   },
   "trailer_specs": {
@@ -257,17 +1090,76 @@
     "blackwater_capacity_gal": 45
   },
   "waste_allocation": {
-    "description": "How consumed water becomes waste water",
-    "greywater_sources": {
-      "shower": 1.0,
-      "laundry": 0.2,
-      "dishwasher": 1.0,
-      "cleaning": 1.0,
-      "toilet_sink": 1.0
+    "description": "Complete waste water allocation from original waste_production lookup",
+    "waste_production_lookup": {
+      "description": "Values are per day for Living, and per cycle for others.",
+      "unit": "gal",
+      "living_cleaning": {
+        "grey": 0.625,
+        "black": 0
+      },
+      "cooking_dishwasher": {
+        "grey": 1.25,
+        "black": 0
+      },
+      "cooking_sink": {
+        "grey": 0,
+        "black": 1.125
+      },
+      "shower": {
+        "grey": 12,
+        "black": 0
+      },
+      "laundry": {
+        "grey": 4.12,
+        "black": 0
+      },
+      "toilet_handwashing": {
+        "grey": 0.375,
+        "black": 0
+      },
+      "toilet_flush": {
+        "grey": -0.4,
+        "black": 0.4
+      }
     },
-    "blackwater_sources": {
-      "toilet_flush": 1.0,
-      "kitchen_sink": 0.75
+    "calculation_logic": {
+      "black_water_sources": [
+        "cooking_sink: kitchen_faucet_water * (waste_lookup.cooking_sink.black / profile.kitchen_faucet_gal_per_meal)",
+        "toilet_flush: waste_lookup.toilet_flush.black * total_toilet_cycles"
+      ],
+      "grey_water_calculation": "total_fresh_consumed - total_black_produced",
+      "dump_trip_logic": "max(grey_produced/grey_capacity, black_produced/black_capacity)"
     }
+  },
+  "operational_logic": {
+    "dump_trip_calculation": {
+      "description": "Calculate required dump trips from waste production",
+      "formula": "max(ceil(grey_produced/grey_capacity), ceil(black_produced/black_capacity))",
+      "drives": [
+        "actuation_cycles",
+        "dumping_cycles"
+      ]
+    },
+    "actuation_cycles": {
+      "description": "Setup/teardown cycles calculation",
+      "base_cycles": 2,
+      "additional_cycles": "relocations * 2 + dump_trips * 2",
+      "components_per_cycle": 6
+    },
+    "dumping_cycles": {
+      "description": "Waste dumping cycles",
+      "cycles_per_trip": 1,
+      "duration_per_cycle_seconds": 6
+    }
+  },
+  "calculation_constants": {
+    "WH_TO_KWH": 1000,
+    "SECONDS_PER_HOUR": 3600,
+    "SMART_KEY_CYCLE_SECONDS": 5,
+    "DISHWASHER_CYCLE_MINUTES": 80,
+    "LAUNDRY_CYCLE_MINUTES": 80,
+    "ACTUATION_CYCLE_SECONDS": 30,
+    "DUMPING_CYCLE_SECONDS": 6
   }
 }

@@ -6,3 +6,12 @@ resource_calculator/~$Resource Calculator_V2_08SEP2025.xlsx
 */__pycache__/*
 streamlit_app/__pycache__/calculator.cpython-311.pyc
 streamlit_app/__pycache__/calculator.cpython-311.pyc
+node_modules
+assistant
+agent
+node_modules
+
+.vercel
+
+
+streamlit_app/__pycache__/calculator.cpython-311.pyc
