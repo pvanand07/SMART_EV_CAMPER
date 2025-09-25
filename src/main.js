@@ -202,8 +202,24 @@ class VoiceAssistantApp {
   onAssistantStreamingStart() {
     console.log('📡 Assistant: Streaming started');
     console.log('📡 Current conversation container:', this.elements.conversationContainer);
+    
+    // Update status with processing animation
     this.updateStatus('Receiving response...');
-    this.currentStreamingMessage = this.addConversationMessage('assistant', '');
+    this.elements.statusDiv?.classList.add('processing');
+    
+    // Update mic button to processing state
+    this.elements.micBtn?.classList.remove('loading', 'listening', 'recording', 'detected');
+    this.elements.micBtn?.classList.add('processing');
+    
+    // Create streaming message with typing indicator
+    this.currentStreamingMessage = this.addConversationMessage('assistant', this.createTypingIndicator());
+    
+    // Add streaming animation to the message
+    if (this.currentStreamingMessage) {
+      this.currentStreamingMessage.classList.add('streaming', 'entering');
+      console.log('📡 Added streaming animations to message');
+    }
+    
     console.log('📡 Created streaming message element:', this.currentStreamingMessage);
   }
 
@@ -216,9 +232,14 @@ class VoiceAssistantApp {
       const contentElement = this.currentStreamingMessage.querySelector('.message-content');
       console.log('📝 Content element found:', contentElement);
       if (contentElement) {
-        // For streaming, show raw text with cursor, parse markdown on completion
-        contentElement.textContent = completeResponse + '|';
-        console.log('📝 Updated content:', contentElement.textContent);
+        // For streaming, show text with animated cursor
+        contentElement.innerHTML = this.escapeHtml(completeResponse) + '<span class="streaming-cursor"></span>';
+        console.log('📝 Updated content with streaming cursor:', contentElement.textContent);
+        
+        // Ensure streaming animation is active
+        if (!this.currentStreamingMessage.classList.contains('streaming')) {
+          this.currentStreamingMessage.classList.add('streaming');
+        }
       } else {
         console.error('❌ No .message-content element found in streaming message');
       }
@@ -233,17 +254,36 @@ class VoiceAssistantApp {
     console.log('✅ Transcription:', transcription);
     console.log('✅ Current streaming message element:', this.currentStreamingMessage);
     
+    // Remove processing status animation
+    this.elements.statusDiv?.classList.remove('processing');
+    
     if (this.currentStreamingMessage) {
       const contentElement = this.currentStreamingMessage.querySelector('.message-content');
       console.log('✅ Final content element found:', contentElement);
       if (contentElement) {
+        // Remove streaming animations and cursor
+        this.currentStreamingMessage.classList.remove('streaming');
+        
         // Parse markdown for final response
         const parsedContent = this.parseMarkdown(response);
         contentElement.innerHTML = parsedContent;
         console.log('✅ Final content set with markdown parsing:', contentElement.innerHTML);
+        
+        // Add completion animation
+        this.currentStreamingMessage.classList.add('message-complete');
+        setTimeout(() => {
+          this.currentStreamingMessage?.classList.remove('message-complete');
+        }, 1000);
       } else {
         console.error('❌ No .message-content element found for final response');
       }
+      
+      // Auto-scroll to bottom after streaming is complete
+      setTimeout(() => {
+        this.currentStreamingMessage.scrollIntoView({ behavior: 'smooth' });
+        console.log('📜 Auto-scrolled to bottom after streaming complete');
+      }, 100);
+      
       this.currentStreamingMessage = null;
     } else {
       console.error('❌ No current streaming message for final response');
@@ -318,6 +358,10 @@ class VoiceAssistantApp {
     // Reset all flags
     this.isListening = false;
     this.isProcessingAudio = false;
+    
+    // Remove processing animations
+    this.elements.statusDiv?.classList.remove('processing');
+    this.elements.micBtn?.classList.remove('processing');
     
     // Update UI to default state
     this.updateUI();
@@ -412,6 +456,26 @@ class VoiceAssistantApp {
   }
 
   /**
+   * Create a typing indicator for the assistant message
+   * @returns {string} - HTML string for typing indicator
+   */
+  createTypingIndicator() {
+    return '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+  }
+
+  /**
+   * Escape HTML characters to prevent XSS
+   * @param {string} text - Text to escape
+   * @returns {string} - Escaped HTML string
+   */
+  escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+
+  /**
    * Parse markdown content safely
    * @param {string} content - Raw text content that may contain markdown
    * @returns {string} - HTML string with parsed markdown
@@ -476,15 +540,19 @@ class VoiceAssistantApp {
     // Update button state
     if (this.elements.micBtn) {
       // Clear all state classes first
-      this.elements.micBtn.classList.remove('loading', 'listening', 'recording', 'detected');
+      this.elements.micBtn.classList.remove('loading', 'listening', 'recording', 'detected', 'processing');
       
       if (this.isProcessingAudio) {
+        this.elements.micBtn.classList.add('processing');
         this.updateStatus('Processing...');
+        this.elements.statusDiv?.classList.add('processing');
       } else if (this.isListening) {
         this.elements.micBtn.classList.add('listening');
         this.updateStatus('Listening for speech...');
+        this.elements.statusDiv?.classList.remove('processing');
       } else {
         this.updateStatus('Click microphone to start listening');
+        this.elements.statusDiv?.classList.remove('processing');
       }
     }
   }

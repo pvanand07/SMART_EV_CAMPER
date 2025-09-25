@@ -345,7 +345,7 @@ export class AssistantService {
       const position = await this.getCurrentPosition();
       const locationName = await this.reverseGeocode(position.coords.latitude, position.coords.longitude);
       
-      const context = `Location: ${locationName} (${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)})`;
+      const context = `User Provided Location: ${locationName} (${position.coords.latitude.toFixed(6)}, ${position.coords.longitude.toFixed(6)})`;
       console.log("Location context:", context);
       return context;
     } catch (error) {
