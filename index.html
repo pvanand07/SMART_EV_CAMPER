@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart EV Camper Agent</title>
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/ort.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <main class="main">
+      <div class="container">
+        <h1 class="title">AC FUTURE</h1>
+        <p class="subtitle">Say "Hey Compass" to activate</p>
+        
+        <div class="mic-container">
+          <button id="micBtn" class="mic-button">
+            <i data-lucide="mic" class="mic-icon"></i>
+          </button>
+          <div class="pulse-ring"></div>
+        </div>
+        
+        <div id="status" class="status">Tap to start listening</div>
+        
+        <div id="conversation" class="conversation-container"></div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

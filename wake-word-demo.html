@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VAD and API Core</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/ort.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.22/dist/bundle.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: white;
+        }
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .start-btn {
+            background: #4CAF50;
+            color: white;
+        }
+        .stop-btn {
+            background: #f44336;
+            color: white;
+        }
+        .listening {
+            background: #ff9800;
+        }
+        .processing {
+            background: #2196F3;
+            opacity: 0.6;
+        }
+        .status {
+            text-align: center;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 5px;
+            background: #333;
+        }
+        .messages {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            min-height: 200px;
+        }
+        .message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user {
+            background: #0066cc;
+            text-align: right;
+        }
+        .assistant {
+            background: #444;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>VAD and API Core Functions</h1>
+        
+        <div class="controls">
+            <button 
+                @click="toggleListening" 
+                :disabled="isProcessing"
+                :class="[
+                    vadStarted ? 'stop-btn' : 'start-btn',
+                    isListening ? 'listening' : '',
+                    isProcessing ? 'processing' : ''
+                ]"
+            >
+                {{ vadStarted ? 'Stop VAD' : 'Start VAD' }}
+            </button>
+            
+            <button @click="resetConversation" :disabled="isProcessing">
+                Reset
+            </button>
+        </div>
+
+        <div class="status">
+            <p v-if="isProcessing">Processing audio...</p>
+            <p v-else-if="isListening">Listening... (speak now)</p>
+            <p v-else-if="vadStarted">Ready to listen</p>
+            <p v-else>Click Start VAD to begin</p>
+        </div>
+
+        <div class="messages">
+            <div v-if="messages.length === 0">
+                <p>No messages yet. Start VAD and speak to test.</p>
+            </div>
+            
+            <div v-for="message in messages" :key="message.id" 
+                 :class="['message', message.type]">
+                <strong>{{ message.type === 'user' ? 'You' : 'Assistant' }}:</strong>
+                {{ message.content }}
+                <div style="font-size: 0.8em; opacity: 0.7; margin-top: 5px;">
+                    {{ message.timestamp }}
+                </div>
+            </div>
+
+            <!-- Streaming Response -->
+            <div v-if="streamingResponse" class="message assistant">
+                <strong>Assistant:</strong>
+                {{ streamingResponse }}<span style="animation: blink 1s infinite;">|</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    vadStarted: false,
+                    isListening: false,
+                    isProcessing: false,
+                    myvad: null,
+                    messages: [],
+                    streamingResponse: '',
+                    config: {
+                        model_id: 'openai/gpt-oss-120b:nitro',
+                        user_id: 'user_' + Math.random().toString(36).substr(2, 9),
+                        conversation_id: 'conv_' + Math.random().toString(36).substr(2, 9)
+                    }
+                }
+            },
+            methods: {
+                // VAD Control Methods
+                async toggleListening() {
+                    if (this.vadStarted) {
+                        await this.stopVAD();
+                    } else {
+                        await this.startVAD();
+                    }
+                },
+
+                async startVAD() {
+                    try {
+                        console.log("Starting VAD...");
+                        this.myvad = await vad.MicVAD.new({
+                            onSpeechStart: () => {
+                                console.log("Speech start detected");
+                                this.isListening = true;
+                            },
+                            onSpeechEnd: (audio) => {
+                                console.log("Speech end detected, audio length:", audio.length);
+                                this.isListening = false;
+                                this.processAudio(audio);
+                            }
+                        });
+                        
+                        await this.myvad.start();
+                        this.vadStarted = true;
+                        console.log("VAD started successfully");
+                    } catch (error) {
+                        console.error("Error starting VAD:", error);
+                        alert("Error starting microphone. Please check permissions and try again.");
+                    }
+                },
+
+                async stopVAD() {
+                    if (this.myvad) {
+                        this.myvad.pause();
+                        this.vadStarted = false;
+                        this.isListening = false;
+                        console.log("VAD stopped");
+                    }
+                },
+
+                // Audio Processing
+                async processAudio(audioData) {
+                    this.isProcessing = true;
+                    
+                    try {
+                        console.log("Processing audio data...");
+                        
+                        // Convert Float32Array to base64 WAV
+                        const base64Audio = await this.audioToBase64WAV(audioData);
+                        console.log("Audio converted to base64, length:", base64Audio.length);
+                        
+                        // Add user message (will be updated with transcribed text)
+                        this.addMessage('user', 'Processing audio...');
+                        
+                        // Send to API
+                        await this.sendToAPI(base64Audio);
+                        
+                    } catch (error) {
+                        console.error("Error processing audio:", error);
+                        this.addMessage('assistant', 'Sorry, there was an error processing your audio: ' + error.message);
+                    } finally {
+                        this.isProcessing = false;
+                    }
+                },
+
+                async audioToBase64WAV(audioData) {
+                    // Create WAV file from Float32Array
+                    const sampleRate = 16000;
+                    const numChannels = 1;
+                    const bitsPerSample = 16;
+                    
+                    const length = audioData.length;
+                    const arrayBuffer = new ArrayBuffer(44 + length * 2);
+                    const view = new DataView(arrayBuffer);
+                    
+                    // WAV header
+                    const writeString = (offset, string) => {
+                        for (let i = 0; i < string.length; i++) {
+                            view.setUint8(offset + i, string.charCodeAt(i));
+                        }
+                    };
+                    
+                    writeString(0, 'RIFF');
+                    view.setUint32(4, 36 + length * 2, true);
+                    writeString(8, 'WAVE');
+                    writeString(12, 'fmt ');
+                    view.setUint32(16, 16, true);
+                    view.setUint16(20, 1, true);
+                    view.setUint16(22, numChannels, true);
+                    view.setUint32(24, sampleRate, true);
+                    view.setUint32(28, sampleRate * numChannels * bitsPerSample / 8, true);
+                    view.setUint16(32, numChannels * bitsPerSample / 8, true);
+                    view.setUint16(34, bitsPerSample, true);
+                    writeString(36, 'data');
+                    view.setUint32(40, length * 2, true);
+                    
+                    // Convert float samples to 16-bit PCM
+                    let offset = 44;
+                    for (let i = 0; i < length; i++) {
+                        const sample = Math.max(-1, Math.min(1, audioData[i]));
+                        view.setInt16(offset, sample * 0x7FFF, true);
+                        offset += 2;
+                    }
+                    
+                    // Convert to base64
+                    const bytes = new Uint8Array(arrayBuffer);
+                    let binary = '';
+                    for (let i = 0; i < bytes.byteLength; i++) {
+                        binary += String.fromCharCode(bytes[i]);
+                    }
+                    return btoa(binary);
+                },
+
+                // API Communication
+                async sendToAPI(audioBase64) {
+                    try {
+                        console.log("Sending request to API...");
+                        console.log("Config:", this.config);
+                        
+                        const response = await fetch('https://api4iresearcher-v5-1.elevatics.site/api/v1/chat', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                query: '',
+                                conversation_id: this.config.conversation_id,
+                                model_id: this.config.model_id,
+                                user_id: this.config.user_id,
+                                assistant_mode: true,
+                                audio_data: audioBase64
+                            })
+                        });
+
+                        console.log("API Response status:", response.status);
+
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const reader = response.body.getReader();
+                        this.streamingResponse = '';
+                        let transcribedText = '';
+
+                        console.log("Starting to read streaming response...");
+
+                        while (true) {
+                            const { done, value } = await reader.read();
+                            if (done) {
+                                console.log("Streaming complete");
+                                break;
+                            }
+
+                            const chunk = new TextDecoder().decode(value);
+                            const lines = chunk.split('\n');
+
+                            for (const line of lines) {
+                                if (line.startsWith('data: ') && line !== 'data: ') {
+                                    try {
+                                        const jsonStr = line.substring(6);
+                                        if (jsonStr.trim()) {
+                                            const data = JSON.parse(jsonStr);
+                                            
+                                            if (data.type === 'chunk' && data.content) {
+                                                this.streamingResponse += data.content;
+                                            } else if (data.type === 'transcribed_text' && data.content) {
+                                                transcribedText = data.content;
+                                                console.log("Transcribed text:", transcribedText);
+                                                // Update the user message with transcribed text
+                                                const lastUserMessage = this.messages.findLast(m => m.type === 'user');
+                                                if (lastUserMessage) {
+                                                    lastUserMessage.content = transcribedText;
+                                                }
+                                            }
+                                            
+                                            console.log("Received data:", data);
+                                        }
+                                    } catch (e) {
+                                        console.log("Skipping invalid JSON line:", line);
+                                    }
+                                }
+                            }
+                        }
+
+                        // Add complete response as message
+                        if (this.streamingResponse) {
+                            console.log("Final response:", this.streamingResponse);
+                            this.addMessage('assistant', this.streamingResponse);
+                            this.streamingResponse = '';
+                        }
+
+                    } catch (error) {
+                        console.error('API Error:', error);
+                        this.addMessage('assistant', 'Sorry, there was an error connecting to the assistant service: ' + error.message);
+                    }
+                },
+
+                // Message Management
+                addMessage(type, content) {
+                    const message = {
+                        id: Date.now(),
+                        type,
+                        content,
+                        timestamp: new Date().toLocaleTimeString()
+                    };
+                    
+                    this.messages.push(message);
+                    console.log("Added message:", message);
+                    
+                    // Auto-scroll to bottom
+                    this.$nextTick(() => {
+                        window.scrollTo(0, document.body.scrollHeight);
+                    });
+                },
+
+                resetConversation() {
+                    console.log("Resetting conversation...");
+                    this.messages = [];
+                    this.streamingResponse = '';
+                    
+                    // Generate new conversation ID
+                    this.config.conversation_id = 'conv_' + Math.random().toString(36).substr(2, 9);
+                    console.log('New conversation ID:', this.config.conversation_id);
+                }
+            },
+
+            beforeUnmount() {
+                if (this.myvad) {
+                    this.myvad.pause();
+                    console.log("VAD cleaned up");
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
