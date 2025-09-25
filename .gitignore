@@ -15,3 +15,6 @@ node_modules
 
 
 streamlit_app/__pycache__/calculator.cpython-311.pyc
+streamlit_app
+resource_calculator
+todos
