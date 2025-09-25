@@ -1,4 +1,3 @@
-import { PorcupineService } from './services/PorcupineService.js';
 import { VADService } from './services/VADService.js';
 import { AssistantService } from './services/AssistantService.js';
 import { TTSService } from './services/TTSService.js';
@@ -7,15 +6,13 @@ import './style.css';
 /**
  * Main Application Class
  */
-class WakeWordApp {
+class VoiceAssistantApp {
   constructor() {
-    this.porcupineService = new PorcupineService();
     this.vadService = new VADService();
     this.assistantService = new AssistantService();
     this.ttsService = new TTSService();
     
     this.isListening = false;
-    this.isVADActive = false;
     this.isProcessingAudio = false;
     this.conversationHistory = [];
     this.messageIdCounter = 0;
@@ -82,6 +79,7 @@ class WakeWordApp {
       });
 
       console.log('✅ All services initialized successfully');
+      this.updateStatus('Ready - Click microphone to start listening');
     } catch (error) {
       console.error('❌ Error initializing services:', error);
       this.updateStatus(`Initialization error: ${error.message}`);
@@ -90,35 +88,43 @@ class WakeWordApp {
 
 
   async toggleListening() {
+    // Always stop all ongoing activities first when mic is pressed
+    await this.stopAllActivities();
+    
     if (this.isListening) {
+      // If currently listening, stop listening
       await this.stopListening();
-    } else {
+    } else if (!this.isProcessingAudio) {
+      // If not listening and not processing, start listening
       await this.startListening();
+    } else {
+      // If processing audio, just stop activities and return to default state
+      this.resetToDefaultState();
     }
   }
 
   async startListening() {
     try {
-      this.updateStatus('Initializing...');
+      this.updateStatus('Starting voice detection...');
       this.elements.micBtn?.classList.add('loading');
 
-      // Reset conversation when mic is turned on (not on every wake word)
-      this.assistantService.resetConversation();
-      console.log('🔄 Conversation reset on mic start');
-
-      // Initialize Porcupine (access key and microphone permission handled automatically)
-      await this.porcupineService.initialize(
-        (detection) => this.onKeywordDetected(detection),
-        (error) => this.onError(error)
-      );
-
-      // Start listening
-      await this.porcupineService.startListening();
-      
+      // Start VAD immediately (conversation ID maintained throughout session)
+      console.log('🎙️ Starting VAD session...');
+      await this.vadService.start();
       this.isListening = true;
+      
       this.updateUI();
 
+      // Set timeout to stop VAD if no speech detected within 10 seconds
+      setTimeout(async () => {
+        if (this.isListening && !this.isProcessingAudio) {
+          console.log('⏰ VAD timeout - no speech detected');
+          await this.stopListening();
+        }
+      }, 10000);
+
     } catch (error) {
+      console.error('❌ Error starting listening:', error);
       this.updateStatus(`Error: ${error.message}`);
       this.isListening = false;
       this.updateUI();
@@ -127,103 +133,20 @@ class WakeWordApp {
 
   async stopListening() {
     try {
-      await this.porcupineService.stopListening();
+      if (this.isListening) {
+        await this.vadService.stop();
+        this.isListening = false;
+        console.log('🛑 VAD stopped');
+      }
       
-      this.isListening = false;
       this.updateUI();
 
     } catch (error) {
+      console.error('❌ Error stopping listening:', error);
       this.updateStatus(`Error: ${error.message}`);
     }
   }
 
-  async onKeywordDetected(detection) {
-    console.log(`🎯 Wake word "${detection.label}" detected! Killing all resources and clearing everything...`);
-    
-    try {
-      // AGGRESSIVE RESOURCE CLEANUP - Kill everything immediately
-      console.log('🧹 Performing aggressive resource cleanup...');
-      
-      // 1. Stop and kill all TTS immediately
-      console.log('🔇 Killing all TTS...');
-      this.ttsService.stopAllTTS();
-      this.ttsService.cleanup();
-      
-      // 2. Force stop any ongoing VAD session
-      if (this.isVADActive) {
-        console.log('🛑 Force stopping VAD...');
-        await this.stopVAD();
-      }
-      
-      // 3. Cancel any ongoing assistant requests
-      console.log('❌ Cancelling assistant requests...');
-      if (this.assistantService) {
-        // Reset assistant service to cancel any ongoing requests
-        this.assistantService.resetConversation();
-      }
-      
-      // 4. Reset all processing flags
-      this.isProcessingAudio = false;
-      this.isVADActive = false;
-      
-      // 5. Clear all conversation data and UI
-      console.log('🧹 Clearing all conversation data...');
-      this.clearConversation();
-      this.conversationHistory = [];
-      this.messageIdCounter = 0;
-      this.currentStreamingMessage = null;
-      
-      // 6. Clear any pending timeouts/intervals
-      // Note: Individual services should handle their own timeout cleanup
-      
-      // Visual feedback for wake word detection
-      this.elements.micBtn?.classList.remove('listening', 'recording');
-      this.elements.micBtn?.classList.add('detected');
-      this.updateStatus(`Please speak now...`);
-      
-      // 7. Temporarily pause wake word detection during VAD to avoid conflicts
-      console.log('⏸️ Temporarily pausing wake word detection for new VAD session...');
-      await this.porcupineService.stopListening();
-      
-      // 8. Start fresh VAD session
-      console.log('🎙️ Starting fresh VAD session...');
-      await this.vadService.start();
-      this.isVADActive = true;
-      
-      // Set timeout to stop VAD if no speech detected within 10 seconds
-      setTimeout(async () => {
-        if (this.isVADActive && !this.isProcessingAudio) {
-          console.log('⏰ VAD timeout - no speech detected');
-          await this.stopVAD();
-          // Resume wake word listening after timeout
-          await this.resumeWakeWordListening();
-          this.updateStatus('No speech detected. Listening for "Hey Compass"...');
-          this.returnToListeningState();
-        }
-      }, 10000);
-      
-      console.log('✅ All resources cleared and killed successfully');
-      
-    } catch (error) {
-      console.error('❌ Error during resource cleanup after wake word:', error);
-      this.updateStatus(`Error: ${error.message}`);
-      
-      // Emergency recovery - try to resume wake word listening
-      try {
-        await this.resumeWakeWordListening();
-        this.returnToListeningState();
-      } catch (resumeError) {
-        console.error('❌ Failed to resume after cleanup error:', resumeError);
-        this.returnToListeningState();
-      }
-    }
-  }
-
-  onError(error) {
-    this.updateStatus(`Error: ${error.message}`);
-    this.isListening = false;
-    this.updateUI();
-  }
 
   // VAD Event Handlers
   onVADSpeechStart() {
@@ -241,15 +164,9 @@ class WakeWordApp {
     this.updateStatus('Processing your speech...');
     
     try {
-      // Stop VAD
-      await this.stopVAD();
+      // Stop VAD and listening
+      await this.stopListening();
       console.log('🛑 VAD stopped successfully');
-      
-      // Resume wake word listening immediately after VAD ends
-      await this.resumeWakeWordListening();
-      
-      // Return to listening state immediately after VAD ends (mic goes back to blue)
-      this.returnToListeningState();
       
       // Convert audio to base64 WAV
       console.log('🔄 Converting audio to base64...');
@@ -269,22 +186,16 @@ class WakeWordApp {
       console.error('❌ Error processing audio:', error);
       console.error('❌ Error stack:', error.stack);
       this.addConversationMessage('assistant', `Sorry, there was an error processing your audio: ${error.message}`);
-      // Ensure wake word listening is resumed even on error
-      await this.resumeWakeWordListening();
-      this.returnToListeningState();
+      // Reset to default state on error
+      this.resetToDefaultState();
     }
   }
 
   onVADError(error) {
     console.error('❌ VAD Error:', error);
     this.updateStatus(`VAD Error: ${error.message}`);
-    // Resume wake word listening after VAD error
-    this.resumeWakeWordListening().then(() => {
-      this.returnToListeningState();
-    }).catch(resumeError => {
-      console.error('❌ Failed to resume wake word listening after VAD error:', resumeError);
-      this.returnToListeningState();
-    });
+    // Reset to default state after VAD error
+    this.resetToDefaultState();
   }
 
   // Assistant Event Handlers
@@ -340,8 +251,8 @@ class WakeWordApp {
     
     this.isProcessingAudio = false;
     
-    // Auto-play TTS for the assistant response (wake word remains active during TTS)
-    console.log('🔊 Starting TTS playback (wake word detection remains active)...');
+    // Auto-play TTS for the assistant response, then reset to default state
+    console.log('🔊 Starting TTS playback...');
     this.playAssistantResponseTTS(response);
   }
 
@@ -357,51 +268,68 @@ class WakeWordApp {
     this.addConversationMessage('assistant', `Sorry, there was an error: ${error.message}`);
     this.isProcessingAudio = false;
     
-    // Ensure wake word listening is resumed even after assistant errors
-    this.resumeWakeWordListening().then(() => {
-      this.returnToListeningState();
-    }).catch(resumeError => {
-      console.error('❌ Failed to resume wake word listening after assistant error:', resumeError);
-      this.returnToListeningState();
-    });
+    // Reset to default state after assistant error
+    this.resetToDefaultState();
   }
 
   // Helper Methods
-  async stopVAD() {
-    if (this.isVADActive) {
-      await this.vadService.stop();
-      this.isVADActive = false;
-      console.log('🛑 VAD stopped');
-    }
-  }
-
   /**
-   * Resume wake word listening after VAD ends
+   * Stop all ongoing activities (TTS, VAD, assistant requests)
    */
-  async resumeWakeWordListening() {
-    if (!this.isListening) {
-      console.log('⚠️ Not in listening mode, skipping wake word resume');
-      return;
-    }
-
+  async stopAllActivities() {
+    console.log('🛑 Stopping all ongoing activities...');
+    
     try {
-      console.log('▶️ Resuming wake word detection...');
-      await this.porcupineService.startListening();
-      console.log('✅ Wake word detection resumed successfully');
+      // 1. Stop and kill all TTS immediately
+      console.log('🔇 Stopping all TTS...');
+      this.ttsService.stopAllTTS();
+      
+      // 2. Stop VAD if active
+      if (this.isListening) {
+        console.log('🛑 Stopping VAD...');
+        await this.vadService.stop();
+      }
+      
+      // 3. Cancel any ongoing assistant requests
+      // Note: We don't reset conversation ID, just stop current streaming
+      console.log('❌ Stopping any ongoing assistant requests...');
+      
+      // 4. Clear streaming message if active
+      if (this.currentStreamingMessage) {
+        console.log('🧹 Clearing streaming message...');
+        this.currentStreamingMessage = null;
+      }
+      
+      console.log('✅ All activities stopped');
     } catch (error) {
-      console.error('❌ Failed to resume wake word listening:', error);
-      throw error;
+      console.error('❌ Error stopping activities:', error);
     }
   }
 
   /**
-   * Play TTS for assistant response
-   * Note: Wake word detection remains active during TTS playback and can interrupt it
+   * Reset to default state (mic button off, ready to listen)
+   */
+  resetToDefaultState() {
+    console.log('🔄 Resetting to default state...');
+    
+    // Reset all flags
+    this.isListening = false;
+    this.isProcessingAudio = false;
+    
+    // Update UI to default state
+    this.updateUI();
+    
+    console.log('✅ Reset to default state complete');
+  }
+
+  /**
+   * Play TTS for assistant response, then reset to default state
    * @param {string} response - The assistant's text response
    */
   async playAssistantResponseTTS(response) {
     if (!response || response.trim() === '') {
       console.warn('⚠️ No response text to convert to speech');
+      this.resetToDefaultState();
       return;
     }
 
@@ -410,47 +338,25 @@ class WakeWordApp {
       this.messageIdCounter++;
       const ttsId = `assistant_msg_${this.messageIdCounter}`;
       
-      console.log('🔊 Starting TTS for assistant response (wake word detection active)...');
+      console.log('🔊 Starting TTS for assistant response...');
       this.updateStatus('Playing response audio...');
       
       // Auto-play TTS with callbacks
-      // Wake word detection continues during TTS and will interrupt if detected
       await this.ttsService.autoPlayTTS(ttsId, response, {
         voice: 'af_bella',
         model: 'hexgrad/Kokoro-82M'
       });
       
+      // Reset to default state after TTS completes
+      this.resetToDefaultState();
+      
     } catch (error) {
       console.error('❌ TTS Error:', error);
-      // Don't show error to user, just log it - the text response is still visible
+      // Reset to default state even on TTS error
+      this.resetToDefaultState();
     }
   }
 
-  returnToListeningState() {
-    this.elements.micBtn?.classList.remove('detected', 'recording');
-    if (this.isListening) {
-      this.elements.micBtn?.classList.add('listening');
-      this.updateStatus('Listening for "Hey Compass"...');
-      
-      // Ensure wake word listening is active (defensive programming)
-      this.ensureWakeWordListening();
-    }
-  }
-
-  /**
-   * Ensure wake word listening is active (defensive check)
-   */
-  async ensureWakeWordListening() {
-    try {
-      const status = this.porcupineService.getStatus();
-      if (this.isListening && !status.isListening) {
-        console.log('🔧 Wake word not listening, restarting...');
-        await this.resumeWakeWordListening();
-      }
-    } catch (error) {
-      console.error('❌ Error ensuring wake word listening:', error);
-    }
-  }
 
   addConversationMessage(type, content) {
     console.log('💬 Adding conversation message:', { type, content });
@@ -500,15 +406,22 @@ class WakeWordApp {
   }
 
   clearConversation() {
-    console.log('🧹 Clearing conversation...');
+    console.log('🧹 Clearing conversation UI...');
     if (this.elements.conversationContainer) {
       console.log('🧹 Clearing', this.elements.conversationContainer.children.length, 'messages');
       this.elements.conversationContainer.innerHTML = '';
-      console.log('🧹 Conversation cleared');
+      console.log('🧹 Conversation UI cleared');
     } else {
       console.warn('⚠️ No conversation container to clear');
     }
     this.conversationHistory = [];
+  }
+
+  resetConversation() {
+    console.log('🔄 Resetting conversation ID...');
+    this.assistantService.resetConversation();
+    this.clearConversation();
+    console.log('✅ Conversation ID reset');
   }
 
 
@@ -521,22 +434,24 @@ class WakeWordApp {
   async updateUI() {
     // Update button state
     if (this.elements.micBtn) {
-      this.elements.micBtn.classList.remove('loading');
+      // Clear all state classes first
+      this.elements.micBtn.classList.remove('loading', 'listening', 'recording', 'detected');
       
-      if (this.isListening) {
+      if (this.isProcessingAudio) {
+        this.updateStatus('Processing...');
+      } else if (this.isListening) {
         this.elements.micBtn.classList.add('listening');
-        this.updateStatus('Listening...');
+        this.updateStatus('Listening for speech...');
       } else {
-        this.elements.micBtn.classList.remove('listening');
-        this.updateStatus('Tap to start listening');
+        this.updateStatus('Click microphone to start listening');
       }
     }
   }
 
   async cleanup() {
     try {
-      if (this.isVADActive) {
-        await this.stopVAD();
+      if (this.isListening) {
+        await this.stopListening();
       }
       
       if (this.ttsService) {
@@ -551,10 +466,6 @@ class WakeWordApp {
         this.assistantService.release();
       }
       
-      if (this.porcupineService) {
-        await this.porcupineService.release();
-      }
-      
       console.log('🧹 All services cleaned up');
     } catch (error) {
       console.error('❌ Error during cleanup:', error);
@@ -564,7 +475,7 @@ class WakeWordApp {
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-  new WakeWordApp();
+  new VoiceAssistantApp();
 });
 
 // Handle hot reload in development
