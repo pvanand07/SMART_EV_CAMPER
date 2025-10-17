@@ -14,12 +14,15 @@ class VoiceAssistantApp {
     
     this.isListening = false;
     this.isProcessingAudio = false;
+    this.isTTSPlaying = false;
     this.conversationHistory = [];
     this.messageIdCounter = 0;
+    this.currentTTSId = null;
     
     // DOM elements
     this.elements = {
       micBtn: null,
+      stopTtsBtn: null,
       statusDiv: null,
       conversationContainer: null,
     };
@@ -32,6 +35,7 @@ class VoiceAssistantApp {
   initializeDOM() {
     // Get DOM elements
     this.elements.micBtn = document.getElementById('micBtn');
+    this.elements.stopTtsBtn = document.getElementById('stopTtsBtn');
     this.elements.statusDiv = document.getElementById('status');
     this.elements.conversationContainer = document.getElementById('conversation');
 
@@ -46,6 +50,9 @@ class VoiceAssistantApp {
     // Initial UI state
     this.updateUI();
     
+    // Hide stop button initially
+    this.hideStopButton();
+    
     // Initialize Lucide icons
     if (typeof lucide !== 'undefined') {
       lucide.createIcons();
@@ -55,6 +62,9 @@ class VoiceAssistantApp {
   bindEvents() {
     // Mic button - toggle listening
     this.elements.micBtn?.addEventListener('click', () => this.toggleListening());
+
+    // Stop TTS button
+    this.elements.stopTtsBtn?.addEventListener('click', () => this.stopTTS());
 
     // Handle page unload
     window.addEventListener('beforeunload', () => this.cleanup());
@@ -326,6 +336,9 @@ class VoiceAssistantApp {
       // 1. Stop and kill all TTS immediately
       console.log('🔇 Stopping all TTS...');
       this.ttsService.stopAllTTS();
+      this.isTTSPlaying = false;
+      this.currentTTSId = null;
+      this.hideStopButton();
       
       // 2. Stop VAD if active
       if (this.isListening) {
@@ -384,23 +397,95 @@ class VoiceAssistantApp {
       // Generate unique ID for this TTS instance
       this.messageIdCounter++;
       const ttsId = `assistant_msg_${this.messageIdCounter}`;
+      this.currentTTSId = ttsId;
       
       console.log('🔊 Starting TTS for assistant response...');
       this.updateStatus('Playing response audio...');
       
-      // Auto-play TTS with callbacks
-      await this.ttsService.autoPlayTTS(ttsId, response, {
-        voice: 'af_bella',
-        model: 'hexgrad/Kokoro-82M'
-      });
+      // Show stop button
+      this.showStopButton();
       
-      // Reset to default state after TTS completes
-      this.resetToDefaultState();
+      // Auto-play TTS with callbacks
+      await this.ttsService.playTTS(
+        ttsId, 
+        response, 
+        {
+          voice: 'af_bella',
+          model: 'hexgrad/Kokoro-82M'
+        },
+        () => {
+          // onPlay callback
+          console.log('🔊 TTS playback started');
+          this.isTTSPlaying = true;
+        },
+        () => {
+          // onEnd callback
+          console.log('✅ TTS playback completed');
+          this.isTTSPlaying = false;
+          this.currentTTSId = null;
+          this.hideStopButton();
+          this.resetToDefaultState();
+        },
+        (error) => {
+          // onError callback
+          console.error('❌ TTS playback error:', error);
+          this.isTTSPlaying = false;
+          this.currentTTSId = null;
+          this.hideStopButton();
+          this.resetToDefaultState();
+        }
+      );
       
     } catch (error) {
       console.error('❌ TTS Error:', error);
+      this.isTTSPlaying = false;
+      this.currentTTSId = null;
+      this.hideStopButton();
       // Reset to default state even on TTS error
       this.resetToDefaultState();
+    }
+  }
+
+  /**
+   * Stop TTS playback
+   */
+  stopTTS() {
+    console.log('🛑 Stopping TTS playback...');
+    
+    if (this.currentTTSId) {
+      this.ttsService.stopTTS(this.currentTTSId);
+    } else {
+      // Fallback: stop all TTS
+      this.ttsService.stopAllTTS();
+    }
+    
+    this.isTTSPlaying = false;
+    this.currentTTSId = null;
+    this.hideStopButton();
+    this.resetToDefaultState();
+  }
+
+  /**
+   * Show stop TTS button
+   */
+  showStopButton() {
+    if (this.elements.stopTtsBtn) {
+      this.elements.stopTtsBtn.classList.remove('hidden');
+      // Re-initialize icons to ensure stop icon is rendered
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+      console.log('👁️ Stop button shown');
+    }
+  }
+
+  /**
+   * Hide stop TTS button
+   */
+  hideStopButton() {
+    if (this.elements.stopTtsBtn) {
+      this.elements.stopTtsBtn.classList.add('hidden');
+      console.log('👁️ Stop button hidden');
     }
   }
 
